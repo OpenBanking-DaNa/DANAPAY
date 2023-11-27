@@ -7,21 +7,10 @@ spring:
     url: jdbc:oracle:thin:@oracle.coffit.today:1521:XE
     username: C##DANA
     password: DANA
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 30MB
-      max-request-size: 30MB
-  web:
-    resources:
-      static-locations: classpath:/images/
+
 
 # mybatis config
 mybatis:
-  mapper-locations: mappers/*.xml
+  mapper-locations: mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-#
-logging:
-  level:
-    org.springframework.security: DEBUG
