@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dana.danapay.store.model.dao.StoreMapper">
+
+    <resultMap id="storeResponse" type="com.dana.danapay.store.StoreDTO">
+        <id property="sCode" column="S_CODE"/>
+        <result property="sId" column="S_ID"/>
+        <result property="sPassword" column="S_PASSWORD"/>
+        <result property="sName" column="S_NAME"/>
+        <result property="sIsOpen" column="S_IS_OPEN"/>
+        <result property="sPhone" column="S_PHONE"/>
+        <result property="sAddress" column="S_ADDRESS"/>
+        <result property="sBiznumber" column="S_BIZNUMBER"/>
+    </resultMap>
+
+    <insert id="insertNewStore" parameterType="com.dana.danapay.store.StoreDTO">
+
+        INSERT INTO STORE (S_CODE, S_ID, S_PASSWORD, S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER)
+        SELECT store_seq.nextval, #{sId}, #{sPassword}, #{sName},
+               #{sIsOpen}, #{sPhone}, #{sAddress}, #{sBiznumber}
+        FROM dual
+        WHERE NOT EXISTS (
+            SELECT S_ID, S_BIZNUMBER
+            FROM STORE
+            WHERE S_ID = #{sId} OR S_BIZNUMBER = #{sBiznumber}
+        )
+        <selectKey keyProperty="sCode" resultType="int" order="AFTER">
+            SELECT store_seq.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <select id="selectStoreByCode" parameterType="int" resultMap="storeResponse">
+        SELECT S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER FROM STORE WHERE S_CODE = #{sCode}
+    </select>
+
+
+</mapper>

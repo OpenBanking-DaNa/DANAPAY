@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/store/regist-new
+Content-Type: application/json; charset=UTF-8
+Accept: */*
+Access-Control-Allow-Credentials: *
+
+{
+  "sId": "s1111",
+  "sPassword":"1111",
+  "sName":"바른치킨 종로점",
+  "sPhone": "010-1111-1111",
+  "sAddress":"서울시 종로구 인사동 7길",
+  "sBiznumber": 1112233333
+}
