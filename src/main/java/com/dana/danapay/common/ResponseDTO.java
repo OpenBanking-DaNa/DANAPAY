@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
@@ -22,6 +23,12 @@ public class ResponseDTO {
 
     public ResponseDTO(int status, String message, Object data) {
         this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+
+    public ResponseDTO(HttpStatus status, String message, Object data) {
+        this.status = status.value();
         this.message = message;
         this.data = data;
     }
