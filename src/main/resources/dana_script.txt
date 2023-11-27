@@ -1,0 +1,133 @@
+DROP TABLE MEMBER;
+
+CREATE TABLE MEMBER
+(
+    id    VARCHAR2(255) NOT NULL,
+    code    INTEGER NOT NULL,
+    password    VARCHAR2(255) NOT NULL,
+    nickname    VARCHAR2(255) NOT NULL
+);
+
+CREATE UNIQUE INDEX MEMBER_PK ON MEMBER
+( code );
+
+ALTER TABLE MEMBER
+ ADD CONSTRAINT MEMBER_PK PRIMARY KEY ( code )
+ USING INDEX MEMBER_PK;
+
+
+DROP TABLE MENU;
+
+CREATE TABLE MENU
+(
+    menu_code    VARCHAR2(255) NOT NULL,
+    menu_name    VARCHAR2(255) NOT NULL,
+    menu_price    INTEGER NOT NULL,
+    orderable    CHAR(1) NOT NULL,
+    s_code    INTEGER NOT NULL,
+    order_code    VARCHAR2(255) NOT NULL
+);
+
+CREATE UNIQUE INDEX MENU_PK ON MENU
+( menu_code );
+
+ALTER TABLE MENU
+ ADD CONSTRAINT MENU_PK PRIMARY KEY ( menu_code )
+ USING INDEX MENU_PK;
+
+DROP TABLE MONEY;
+
+CREATE TABLE MONEY
+(
+    method    VARCHAR2(255) NOT NULL,
+    code    INTEGER NOT NULL,
+    money    INTEGER NOT NULL,
+    money_date    DATE,
+    money_code varchar2(255) primary key NOT NULL
+);
+
+CREATE UNIQUE INDEX MONEY_PK ON MONEY
+    ( money_code );
+
+ALTER TABLE MONEY
+    ADD CONSTRAINT MONEY_PK PRIMARY KEY ( money_code )
+        USING INDEX MONEY_PK;
+
+
+DROP TABLE ORDERS;
+
+CREATE TABLE ORDERS
+(
+    code    INTEGER NOT NULL,
+    order_code    VARCHAR2(255) primary key NOT NULL,
+    order_date    DATE NOT NULL,
+    total_quantity    VARCHAR2(255) NOT NULL,
+    total_amount    VARCHAR2(255) NOT NULL,
+    status    INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX ORDER_PK ON ORDERS
+    ( order_code );
+
+ALTER TABLE ORDERS
+    ADD CONSTRAINT ORDERS_PK PRIMARY KEY ( order_code )
+        USING INDEX ORDERS_PK;
+
+
+DROP TABLE ORDER_MENU;
+
+CREATE TABLE ORDER_MENU
+(
+    order_code    VARCHAR2(255) NOT NULL,
+    menu_order_code    VARCHAR2(255) NOT NULL,
+    menu_code    VARCHAR2(255) NOT NULL,
+    amont    INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX ORDER_MENU_PK ON ORDER_MENU
+( menu_order_code );
+
+ALTER TABLE ORDER_MENU
+ ADD CONSTRAINT ORDER_MENU_PK PRIMARY KEY ( menu_order_code )
+ USING INDEX ORDER_MENU_PK;
+
+
+DROP TABLE REVIEW;
+
+CREATE TABLE REVIEW
+(
+    review_code    VARCHAR2(255) NOT NULL,
+    content    VARCHAR2(300),
+    review_date    VARCHAR2(255) NOT NULL,
+    review_star    INTEGER NOT NULL,
+    review_reply    VARCHAR2(300),
+    order_code    VARCHAR2(255) NOT NULL
+);
+
+CREATE UNIQUE INDEX REVIEW_PK ON REVIEW
+( review_code );
+
+ALTER TABLE REVIEW
+ ADD CONSTRAINT REVIEW_PK PRIMARY KEY ( review_code )
+ USING INDEX REVIEW_PK;
+
+
+DROP TABLE STORE;
+
+CREATE TABLE STORE
+(
+    s_id    VARCHAR2(255) NOT NULL,
+    s_code    INTEGER NOT NULL,
+    s_password    VARCHAR2(255) NOT NULL,
+    s_name    VARCHAR2(255) NOT NULL,
+    s_is_open    CHAR(1) NOT NULL
+);
+
+CREATE UNIQUE INDEX STORE_PK ON STORE
+( s_code );
+
+ALTER TABLE STORE
+ ADD CONSTRAINT STORE_PK PRIMARY KEY ( s_code )
+ USING INDEX STORE_PK;
+
+
