@@ -13,9 +13,20 @@
         <result property="sPhone" column="S_PHONE"/>
         <result property="sAddress" column="S_ADDRESS"/>
         <result property="sBiznumber" column="S_BIZNUMBER"/>
+        <collection property="menuList" resultMap="menuResponse"/>
     </resultMap>
 
-    <insert id="insertNewStore" parameterType="com.dana.danapay.store.StoreDTO">
+    <resultMap id="menuResponse" type="com.dana.danapay.menu.menuDTO">
+        <id property="menuCode" column="MENU_CODE"/>
+        <result property="menuName;" column="MENU_NAME"/>
+        <result property="menuPrice" column="MENU_PRICE"/>
+        <result property="isOrder" column="ISORDER"/>
+        <result property="sCode" column="S_CODE"/>
+    </resultMap>
+
+
+<!--  스토어 등록  -->
+    <insert id="insertNewStore" parameterType="com.dana.danapay.store.StoreDTO" useGeneratedKeys="true" keyProperty="sCode">
 
         INSERT INTO STORE (S_CODE, S_ID, S_PASSWORD, S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER)
         SELECT store_seq.nextval, #{sId}, #{sPassword}, #{sName},
@@ -32,7 +43,7 @@
     </insert>
 
     <select id="selectStoreByCode" parameterType="int" resultMap="storeResponse">
-        SELECT S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER FROM STORE WHERE S_CODE = #{sCode}
+        SELECT S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER, S_CODE FROM STORE WHERE S_CODE = #{sCode}
     </select>
 
 

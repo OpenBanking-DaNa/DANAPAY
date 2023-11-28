@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dana.danapay.menu.MenuMapper">
+
+    <resultMap id="menuResponse" type="com.dana.danapay.menu.menuDTO">
+        <id property="menuCode" column="MENU_CODE"/>
+        <result property="menuName;" column="MENU_NAME"/>
+        <result property="menuPrice" column="MENU_PRICE"/>
+        <result property="isOrder" column="ISORDER"/>
+        <result property="sCode" column="S_CODE"/>
+    </resultMap>
+
+<!--  메뉴 등록  -->
+    <insert id="insertMenu">
+        MERGE INTO MENU m
+            USING (
+            <foreach collection="list" item="menu" index="index" separator="UNION ALL">
+                SELECT #{menu.menuName} AS menuName
+                     , #{menu.menuPrice} AS menuPrice
+                     , #{menu.sCode} AS sCode
+                  FROM dual
+            </foreach>
+            ) new_menu
+            ON (m.MENU_NAME = new_menu.menuName)
+            WHEN MATCHED THEN
+                UPDATE SET m.MENU_PRICE = new_menu.menuPrice
+            WHEN NOT MATCHED THEN
+                INSERT (MENU_CODE, MENU_NAME, MENU_PRICE, S_CODE)
+                VALUES (menu_seq.nextval, new_menu.menuName, new_menu.menuPrice, new_menu.sCode)
+    </insert>
+
+
+
+
+</mapper>

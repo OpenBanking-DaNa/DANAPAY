@@ -37,7 +37,7 @@ public class StoreService {
             return storeMapper.selectStoreByCode(registCode);
         }
         else {
-            return "스토어 등록 실패";
+            return "S401 : 스토어 등록 실패";
         }
     }
 }
