@@ -6,7 +6,7 @@
 
     <resultMap id="menuResponse" type="com.dana.danapay.menu.menuDTO">
         <id property="menuCode" column="MENU_CODE"/>
-        <result property="menuName;" column="MENU_NAME"/>
+        <result property="menuName" column="MENU_NAME"/>
         <result property="menuPrice" column="MENU_PRICE"/>
         <result property="isOrder" column="ISORDER"/>
         <result property="sCode" column="S_CODE"/>
@@ -31,7 +31,15 @@
                 VALUES (menu_seq.nextval, new_menu.menuName, new_menu.menuPrice, new_menu.sCode)
     </insert>
 
-
-
+    <select id="selectMenuList" resultMap="menuResponse">
+        SELECT
+            MENU_CODE,
+            MENU_NAME,
+            MENU_PRICE,
+            ISORDER
+        FROM MENU
+        WHERE S_CODE = #{sCode}
+        ORDER BY 1
+    </select>
 
 </mapper>

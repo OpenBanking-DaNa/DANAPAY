@@ -29,4 +29,12 @@ public class menuController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 등록",
                 menuservice.insertMenu(menuRequest)));
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<ResponseDTO> menuList(@RequestParam int sCode){
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 조회",
+                menuservice.selectMenuList(sCode)));
+
+    }
 }

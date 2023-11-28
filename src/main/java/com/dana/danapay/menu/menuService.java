@@ -26,7 +26,7 @@ public class menuService {
         this.storeMapper = storeMapper;
     }
 
-    // batch
+
     @Transactional
     public Object insertMenu(StoreDTO menuRequest) {
 
@@ -41,7 +41,6 @@ public class menuService {
             // 요청 갯수와 일치하는지 확인
             if(result == menuRequest.getMenuList().size()){
 
-
                 return result + "개 메뉴 등록 성공";
             } else {
                 return menuRequest.getMenuList().size() - result + "개 메뉴 등록이 실피하였습니다.";
@@ -49,5 +48,10 @@ public class menuService {
         } else {
             return "요청 메뉴 등록 실패";
         }
+    }
+
+    public Object selectMenuList(int sCode) {
+
+        return menuMapper.selectMenuList(sCode);
     }
 }

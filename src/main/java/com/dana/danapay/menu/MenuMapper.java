@@ -8,4 +8,5 @@ import java.util.List;
 public interface MenuMapper {
     int insertMenu(List<menuDTO> menuRequest);
 
+    List<menuDTO> selectMenuList(int sCode);
 }
