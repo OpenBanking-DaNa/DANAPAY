@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dana.danapay.member.model.dao.MemberMapper">
+
+    <!-- MONEY-2. 예치금 잔액 조회 -->
+    <resultMap id="searchMoneyBalanceResultMap" type="com.dana.danapay.member.model.dto.MemberDTO" >
+        <id property="code" column="CODE"/>
+        <result property="balance" column="BALANCE"/>
+    </resultMap>
+
+    <!-- MONEY-2. 예치금 잔액 조회 -->
+    <select id="searchMoneyBalance" resultType="int">
+        SELECT BALANCE FROM MEMBER
+        WHERE CODE = #{code}
+    </select>
+
+</mapper>

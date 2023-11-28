@@ -1,11 +1,11 @@
-package com.dana.danapay.member;
+package com.dana.danapay.member.model.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class memberService {
+public class MemberService {
 
     // 로그인
 //    public static Object login(memberDTO memberDTO) {

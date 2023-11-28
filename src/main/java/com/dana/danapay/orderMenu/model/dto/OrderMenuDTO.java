@@ -1,4 +1,4 @@
-package com.dana.danapay.orderMenu;
+package com.dana.danapay.orderMenu.model.dto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class orderMenuDTO {
+public class OrderMenuDTO {
 
     private String orderCode;       // 주문코드
     private String menuOrderCode;   // 주문메뉴코드

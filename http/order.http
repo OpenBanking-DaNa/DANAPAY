@@ -8,3 +8,18 @@ Access-Control-Allow-Origin: *
   "id": "1111",
   "password": "1111"
 }
+
+### MONEY-1. 예치금 내역 조회 @PathVariable 사용
+GET http://localhost:8080/api/money/search-list/1111
+Content-Type: application/json
+
+### MONEY-2. 예치금 잔액 조회 @RequestParam 사용
+GET http://localhost:8080/api/money/search-bs?code=1111
+Content-Type: application/json
+
+### 예치금 충전
+POST http://localhost:8080/api/money/charge/1111
+
+### 주문-결제하기
+POST http://localhost:8080/api/order/pay/1111
+

@@ -1,15 +1,12 @@
-package com.dana.danapay.member;
+package com.dana.danapay.member.controller;
 
-import com.dana.danapay.common.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequestMapping("/api/member")
-public class memberController {
+public class MemberController {
 
     // 로그인
 //    @PostMapping("/login")

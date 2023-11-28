@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dana.danapay.money.model.dao.MoneyDAO">
+<mapper namespace="com.dana.danapay.money.model.dao.MoneyMapper">
 
-    <!-- 1-1. 예치금 조회 -->
+    <!-- MONEY-1. 예치금 조회 -->
     <resultMap id="searchMoneyResultMap" type="com.dana.danapay.money.model.dto.MoneyDTO" >
         <id property="moneyCode" column="MONEY_CODE"/>
         <result property="code" column="CODE"/>
@@ -13,10 +13,14 @@
         <result property="moneyDate" column="MONEY_DATE"/>
     </resultMap>
 
-    <!-- 1-1. 예치금 조회 -->
+
+    <!-- MONEY-1. 예치금 조회 -->
     <select id="searchMoneyByCode" resultMap="searchMoneyResultMap">
         SELECT * FROM MONEY
         WHERE CODE = #{code}
     </select>
+
+
+
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.dana.danapay.money.model.service;
 
-import com.dana.danapay.money.model.dao.MoneyDAO;
+import com.dana.danapay.member.model.dao.MemberMapper;
+import com.dana.danapay.money.model.dao.MoneyMapper;
 import com.dana.danapay.money.model.dto.MoneyDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,24 +12,43 @@ import java.util.List;
 @Service
 public class MoneyService {
 
-    private final MoneyDAO moneyDAO;
+    private final MoneyMapper moneyMapper;
+    private final MemberMapper memberMapper;
 
-    public MoneyService(MoneyDAO moneyDAO) {
-        this.moneyDAO = moneyDAO;
+    public MoneyService(MoneyMapper moneyMapper, MemberMapper memberMapper) {
+        this.moneyMapper = moneyMapper;
+        this.memberMapper = memberMapper;
     }
 
-    public List<MoneyDTO> searchMoney(int code) {
 
-        log.info("moneyService : searchMoney---- start");
-        log.info("moneyService : searchMoney---- 2222");
+    /* MONEY-1. 예치금 내역 조회 */
+    public List<MoneyDTO> searchMoneyList(int code) {
+
+        log.info("moneyService - searchMoneyList---- start");
 
         try {
-            List<MoneyDTO> moneyList = moneyDAO.searchMoneyByCode(code);
-            log.info("moneyService : moneyList size: {}", moneyList.size());
-            log.info("moneyService : searchMoney---- end");
+            List<MoneyDTO> moneyList = moneyMapper.searchMoneyByCode(code);
+            log.info("moneyService : moneyList : {}", moneyList);
+            log.info("moneyService - searchMoneyList---- end");
             return moneyList;
         } catch (Exception e) {
-            log.error("An error occurred in moneyService : searchMoney", e);
+            log.error("에러발생 moneyService - searchMoneyList", e);
+            throw e;
+        }
+    }
+
+    /* MONEY-2. 예치금 잔액 조회 */
+    public int searchMoneyBalance(int code) {
+
+        log.info("moneyService - searchMoneyBalance---- start");
+
+        try {
+            int balance = memberMapper.searchMoneyBalance(code);
+            log.info("moneyService : balance : {}", balance);
+            log.info("moneyService - searchMoneyBalance---- end");
+            return balance;
+        } catch (Exception e) {
+            log.error("에러발생 moneyService - searchMoneyBalance", e);
             throw e;
         }
     }

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Money controller.
+ */
 @RestController
 @Slf4j
 @RequestMapping("/api/money")
@@ -21,15 +24,14 @@ public class MoneyController {
         this.moneyService = moneyService;
     }
 
-    // 예치금 조회
-    @GetMapping("/search/{code}")
-    public ResponseEntity<ResponseDTO> searchMoney (@PathVariable int code){
+    /* MONEY-1. 예치금 내역 조회 @PathVariable 사용 */
+    @GetMapping("/search-list/{code}")
+    public ResponseEntity<ResponseDTO> searchMoneyList (@PathVariable int code){
 
-        log.info("moneyController : searchMoney --- start");
-        log.info("moneyController : searchMoney --- code : " + code);
+        log.info("moneyController : searchMoneyList --- start");
 
         try {
-            List<MoneyDTO> result = moneyService.searchMoney(code);
+            List<MoneyDTO> result = moneyService.searchMoneyList(code);
             log.info("moneyController : result{}", result);
 
             return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "예치금 조회 성공", result));
@@ -39,4 +41,25 @@ public class MoneyController {
         }
 
     }
+
+    /* MONEY-2. 예치금 잔액 조회 @RequestParam 사용 */
+    @GetMapping("/search-bs")
+    public ResponseEntity<ResponseDTO> searchMoneyBalance (@RequestParam("code") int code){
+
+        log.info("moneyController : searchMoneyBalance --- start");
+        log.info("moneyController : searchMoneyBalance --- code : " + code);
+
+        try {
+            int result = moneyService.searchMoneyBalance(code);
+            log.info("moneyController : result{}", result);
+
+            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "예치금 잔액 조회 성공", result));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "예치금 잔액 조회 실패", null));
+        }
+
+    }
+
+
 }
