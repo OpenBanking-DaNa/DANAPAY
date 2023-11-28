@@ -28,5 +28,12 @@
         (MONEY_SEQ.NEXTVAL, #{code}, #{option}, #{money}, SYSDATE)
     </insert>
 
+    <!-- MONEY-4. 예치금 선물 -->
+    <insert id="giftMoney" parameterType="com.dana.danapay.money.model.dto.MoneyDTO">
+        INSERT INTO MONEY
+            (MONEY_CODE, CODE, "OPTION", MONEY, "MONEY_DATE")
+        VALUES
+            (MONEY_SEQ.NEXTVAL, #{code}, #{option}, #{money}, SYSDATE)
+    </insert>
 
 </mapper>

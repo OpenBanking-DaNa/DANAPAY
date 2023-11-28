@@ -22,10 +22,15 @@
         SET BALANCE =
             CASE
                 WHEN #{option} = '충전' THEN BALANCE + #{money}
+                WHEN #{option} = '선물받기' THEN BALANCE + #{money}
                 WHEN #{option} = '사용' THEN BALANCE - #{money}
+                WHEN #{option} = '선물보내기' THEN BALANCE - #{money}
                 ELSE BALANCE
             END
         WHERE CODE = #{code}
     </update>
+
+    <!-- MONEY-4. 예치금 선물 - 잔액 반영 -->
+
 
 </mapper>

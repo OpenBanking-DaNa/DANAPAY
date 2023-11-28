@@ -14,4 +14,7 @@ public interface MoneyMapper {
 
     /* MONEY-3. 예치금 충전 */
     int chargeMoney(MoneyDTO moneyDTO);
+
+    /* MONEY-4. 예치금 선물 */
+    void giftMoney(MoneyDTO moneyDTO);
 }

@@ -26,7 +26,20 @@ Access-Control-Allow-Origin: *
 {
   "code": 1111,
   "option": "충전",
-  "money": 20000
+  "money": 5000
+}
+
+### 예치금 선물
+POST http://localhost:8080/api/money/gift
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
+
+{
+  "code": 1111,
+  "option": "선물보내기",
+  "money": 100000,
+  "recipientCode": 2222
 }
 
 ### 주문-결제하기

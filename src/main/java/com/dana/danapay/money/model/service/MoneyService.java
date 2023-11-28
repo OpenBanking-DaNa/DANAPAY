@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +27,6 @@ public class MoneyService {
     public List<MoneyDTO> searchMoneyList(int code) {
 
         log.info("moneyService - searchMoneyList---- start");
-
         try {
             List<MoneyDTO> moneyList = moneyMapper.searchMoneyByCode(code);
             log.info("moneyService : moneyList : {}", moneyList);
@@ -42,7 +42,6 @@ public class MoneyService {
     public int searchMoneyBalance(int code) {
 
         log.info("moneyService - searchMoneyBalance---- start");
-
         try {
             int balance = memberMapper.searchMoneyBalance(code);
             log.info("moneyService : balance : {}", balance);
@@ -59,7 +58,6 @@ public class MoneyService {
     public boolean chargeMoney(MoneyDTO moneyDTO) {
 
         log.info("moneyService - chargeMoney---- start");
-
         try {
             moneyMapper.chargeMoney(moneyDTO);
             memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
@@ -73,6 +71,29 @@ public class MoneyService {
             log.error("에러발생 moneyService - chargeMoney", e);
             throw e;
         }
+    }
 
+    /* MONEY-4. 예치금 선물 */
+    @Transactional
+    public boolean giftMoney(MoneyDTO moneyDTO) {
+        log.info("moneyService - giftMoney---- start");
+        try {
+            moneyMapper.giftMoney(moneyDTO);
+            MoneyDTO recipientMoney = new MoneyDTO();
+            recipientMoney.setCode(moneyDTO.getRecipientCode());
+            recipientMoney.setOption("선물받기");
+            recipientMoney.setMoney(moneyDTO.getMoney());
+            moneyMapper.giftMoney(recipientMoney);
+
+            // 잔액 반영
+            memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
+            memberMapper.chargeMoney(recipientMoney.getCode(), recipientMoney.getMoney(), recipientMoney.getOption());
+
+            log.info("moneyService - giftMoney---- end");
+            return true;
+        } catch (Exception e) {
+            log.error("에러발생 moneyService - giftMoney", e);
+            throw e;
+        }
     }
 }
