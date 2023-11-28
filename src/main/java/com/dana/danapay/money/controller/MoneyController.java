@@ -28,7 +28,7 @@ public class MoneyController {
     @GetMapping("/search-list/{code}")
     public ResponseEntity<ResponseDTO> searchMoneyList (@PathVariable int code){
 
-        log.info("moneyController : searchMoneyList --- start");
+        log.info("moneyController : searchMoneyList");
 
         try {
             List<MoneyDTO> result = moneyService.searchMoneyList(code);
@@ -46,8 +46,7 @@ public class MoneyController {
     @GetMapping("/search-bs")
     public ResponseEntity<ResponseDTO> searchMoneyBalance (@RequestParam("code") int code){
 
-        log.info("moneyController : searchMoneyBalance --- start");
-        log.info("moneyController : searchMoneyBalance --- code : " + code);
+        log.info("moneyController : searchMoneyBalance");
 
         try {
             int result = moneyService.searchMoneyBalance(code);
@@ -58,6 +57,26 @@ public class MoneyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "예치금 잔액 조회 실패", null));
         }
+
+    }
+
+    /* MONEY-3. 예치금 충전 */
+    @PostMapping("/charge")
+    public ResponseEntity<ResponseDTO> chargeMoney (@RequestBody MoneyDTO moneyDTO){
+
+        log.info("moneyController : chargeMoney");
+
+        try {
+            boolean result = moneyService.chargeMoney(moneyDTO);
+            log.info("moneyController : result{}", result);
+            log.info("chargeMoney balance : {}", moneyService.searchMoneyBalance(moneyDTO.getCode()));
+
+            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "예치금 충전 성공", result));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "예치금 충전 실패", null));
+        }
+
 
     }
 

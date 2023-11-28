@@ -4,8 +4,8 @@ import java.sql.Date;
 
 public class MoneyDTO {
 
-    private String moneyCode;       // 예치금코드
-    private String code;            // 회원코드
+    private int moneyCode;       // 예치금코드
+    private int code;            // 회원코드
     private String option;          // 예치금구분
     private int money;              // 예치금금액
     private Date moneyDate;         // 예치금일자
@@ -14,7 +14,7 @@ public class MoneyDTO {
     public MoneyDTO() {
     }
 
-    public MoneyDTO(String moneyCode, String code, String option, int money, Date moneyDate) {
+    public MoneyDTO(int moneyCode, int code, String option, int money, Date moneyDate) {
         this.moneyCode = moneyCode;
         this.code = code;
         this.option = option;
@@ -22,19 +22,19 @@ public class MoneyDTO {
         this.moneyDate = moneyDate;
     }
 
-    public String getMoneyCode() {
+    public int getMoneyCode() {
         return moneyCode;
     }
 
-    public void setMoneyCode(String moneyCode) {
+    public void setMoneyCode(int moneyCode) {
         this.moneyCode = moneyCode;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

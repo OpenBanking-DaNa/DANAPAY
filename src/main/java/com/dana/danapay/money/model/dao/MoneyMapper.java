@@ -12,6 +12,6 @@ public interface MoneyMapper {
 //    @Select("SELECT * FROM MONEY WHERE CODE = #{code}")
     List<MoneyDTO> searchMoneyByCode(int code);
 
-
-
+    /* MONEY-3. 예치금 충전 */
+    int chargeMoney(MoneyDTO moneyDTO);
 }

@@ -16,4 +16,16 @@
         WHERE CODE = #{code}
     </select>
 
+    <!-- MONEY-3. 예치금 충전 - 잔액 반영 -->
+    <update id="chargeMoney">
+        UPDATE MEMBER
+        SET BALANCE =
+            CASE
+                WHEN #{option} = '충전' THEN BALANCE + #{money}
+                WHEN #{option} = '사용' THEN BALANCE - #{money}
+                ELSE BALANCE
+            END
+        WHERE CODE = #{code}
+    </update>
+
 </mapper>

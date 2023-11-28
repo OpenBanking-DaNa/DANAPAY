@@ -18,7 +18,16 @@ GET http://localhost:8080/api/money/search-bs?code=1111
 Content-Type: application/json
 
 ### 예치금 충전
-POST http://localhost:8080/api/money/charge/1111
+POST http://localhost:8080/api/money/charge
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
+
+{
+  "code": 1111,
+  "option": "충전",
+  "money": 20000
+}
 
 ### 주문-결제하기
 POST http://localhost:8080/api/order/pay/1111

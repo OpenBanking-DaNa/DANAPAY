@@ -5,6 +5,7 @@ import com.dana.danapay.money.model.dao.MoneyMapper;
 import com.dana.danapay.money.model.dto.MoneyDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,5 +52,27 @@ public class MoneyService {
             log.error("에러발생 moneyService - searchMoneyBalance", e);
             throw e;
         }
+    }
+
+    /* MONEY-3. 예치금 충전 */
+    @Transactional
+    public boolean chargeMoney(MoneyDTO moneyDTO) {
+
+        log.info("moneyService - chargeMoney---- start");
+
+        try {
+            moneyMapper.chargeMoney(moneyDTO);
+            memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
+
+            int balance = memberMapper.searchMoneyBalance(moneyDTO.getCode());
+            log.info("moneyService : balance : {}", balance);
+
+            log.info("moneyService - chargeMoney---- end");
+            return true;
+        } catch (Exception e) {
+            log.error("에러발생 moneyService - chargeMoney", e);
+            throw e;
+        }
+
     }
 }
