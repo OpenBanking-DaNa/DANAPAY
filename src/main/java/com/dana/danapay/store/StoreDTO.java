@@ -1,7 +1,9 @@
 package com.dana.danapay.store;
 
 
-import lombok.*;
+import com.dana.danapay.menu.menuDTO;
+
+import java.util.List;
 
 public class StoreDTO {
 
@@ -16,9 +18,12 @@ public class StoreDTO {
 
     private long sBiznumber;     // 사업자 번호
 
+    private List<menuDTO> menuList; // 메뉴리스트
+
     public StoreDTO() {
     }
 
+    // 메뉴리스트 생성자는 빠짐
     public StoreDTO(int sCode, String sId, String sPassword, String sName, char sIsOpen, String sPhone, String sAddress, long sBiznumber) {
         this.sCode = sCode;
         this.sId = sId;
@@ -94,6 +99,14 @@ public class StoreDTO {
         this.sBiznumber = sBiznumber;
     }
 
+    public List<menuDTO> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<menuDTO> menuList) {
+        this.menuList = menuList;
+    }
+
     @Override
     public String toString() {
         return "StoreDTO{" +
@@ -105,6 +118,7 @@ public class StoreDTO {
                 ", sPhone='" + sPhone + '\'' +
                 ", sAddress='" + sAddress + '\'' +
                 ", sBiznumber=" + sBiznumber +
+                ", menuList=" + menuList +
                 '}';
     }
 }

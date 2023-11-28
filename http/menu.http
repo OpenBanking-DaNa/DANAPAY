@@ -1,0 +1,35 @@
+# 메뉴 등록(1 ~ 100개)
+POST http://localhost:8080/api/menu/regist
+Content-Type: application/json; charset=UTF-8
+
+{
+  "sCode": 5,
+  "sId": "s2222",
+  "menuList" : [
+    {"menuName": "(i)아메리카노",
+      "menuPrice": 3500
+    }
+  , {"menuName": "(H)아메리카노",
+      "menuPrice": 3000
+    }
+  , {"menuName": "(i)카페라떼",
+      "menuPrice": 4500
+    }
+  , {"menuName": "(H)카페라떼",
+      "menuPrice": 4000
+    }
+  , {"menuName": "(i)망고에이드",
+      "menuPrice": 5500
+    }
+  , {"menuName": "(H)핫초코",
+      "menuPrice": 500000
+    }
+  ]
+}
+
+
+### 메뉴 조회
+
+### 메뉴 수정(이름, 가격, 주문여부)
+
+### 메뉴 삭제
