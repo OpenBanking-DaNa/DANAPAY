@@ -11,12 +11,15 @@ public class StoreDTO {
     private String sId;             // 스토어 계정 아이디
     private String sPassword;       // 스토어 계정 비밀번호
     private String sName;           // 스토어 이름
-    private char sIsOpen;           // 스토어 오픈 여부
+    private String sIsOpen;           // 스토어 오픈 여부
 
     private String sPhone;          // 스토어 연락처
     private String sAddress;      // 스토어 주소
 
     private long sBiznumber;     // 사업자 번호
+
+    private double sX;          // 위치 경도
+    private double sY;          // 위치 위도
 
     private List<menuDTO> menuList; // 메뉴리스트
 
@@ -24,7 +27,9 @@ public class StoreDTO {
     }
 
     // 메뉴리스트 생성자는 빠짐
-    public StoreDTO(int sCode, String sId, String sPassword, String sName, char sIsOpen, String sPhone, String sAddress, long sBiznumber) {
+
+
+    public StoreDTO(int sCode, String sId, String sPassword, String sName, String sIsOpen, String sPhone, String sAddress, long sBiznumber, double sX, double sY, List<menuDTO> menuList) {
         this.sCode = sCode;
         this.sId = sId;
         this.sPassword = sPassword;
@@ -33,6 +38,9 @@ public class StoreDTO {
         this.sPhone = sPhone;
         this.sAddress = sAddress;
         this.sBiznumber = sBiznumber;
+        this.sX = sX;
+        this.sY = sY;
+        this.menuList = menuList;
     }
 
     public int getsCode() {
@@ -67,11 +75,11 @@ public class StoreDTO {
         this.sName = sName;
     }
 
-    public char getsIsOpen() {
+    public String getsIsOpen() {
         return sIsOpen;
     }
 
-    public void setsIsOpen(char sIsOpen) {
+    public void setsIsOpen(String sIsOpen) {
         this.sIsOpen = sIsOpen;
     }
 
@@ -107,6 +115,22 @@ public class StoreDTO {
         this.menuList = menuList;
     }
 
+    public double getsX() {
+        return sX;
+    }
+
+    public void setsX(double sX) {
+        this.sX = sX;
+    }
+
+    public double getsY() {
+        return sY;
+    }
+
+    public void setsY(double sY) {
+        this.sY = sY;
+    }
+
     @Override
     public String toString() {
         return "StoreDTO{" +
@@ -118,6 +142,8 @@ public class StoreDTO {
                 ", sPhone='" + sPhone + '\'' +
                 ", sAddress='" + sAddress + '\'' +
                 ", sBiznumber=" + sBiznumber +
+                ", sX=" + sX +
+                ", sY=" + sY +
                 ", menuList=" + menuList +
                 '}';
     }

@@ -13,12 +13,14 @@
         <result property="sPhone" column="S_PHONE"/>
         <result property="sAddress" column="S_ADDRESS"/>
         <result property="sBiznumber" column="S_BIZNUMBER"/>
+        <result property="sX" column="S_X"/>
+        <result property="sY" column="S_Y"/>
         <collection property="menuList" resultMap="menuResponse"/>
     </resultMap>
 
     <resultMap id="menuResponse" type="com.dana.danapay.menu.menuDTO">
         <id property="menuCode" column="MENU_CODE"/>
-        <result property="menuName;" column="MENU_NAME"/>
+        <result property="menuName" column="MENU_NAME"/>
         <result property="menuPrice" column="MENU_PRICE"/>
         <result property="isOrder" column="ISORDER"/>
         <result property="sCode" column="S_CODE"/>
@@ -28,9 +30,10 @@
 <!--  스토어 등록  -->
     <insert id="insertNewStore" parameterType="com.dana.danapay.store.StoreDTO" useGeneratedKeys="true" keyProperty="sCode">
 
-        INSERT INTO STORE (S_CODE, S_ID, S_PASSWORD, S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER)
+        INSERT INTO STORE (S_CODE, S_ID, S_PASSWORD, S_NAME, S_PHONE, S_ADDRESS, S_BIZNUMBER, S_X, S_Y)
         SELECT store_seq.nextval, #{sId}, #{sPassword}, #{sName},
-               #{sIsOpen}, #{sPhone}, #{sAddress}, #{sBiznumber}
+               #{sPhone}, #{sAddress}, #{sBiznumber},
+               #{sX}, #{sY}
         FROM dual
         WHERE NOT EXISTS (
             SELECT S_ID, S_BIZNUMBER
@@ -44,6 +47,96 @@
 
     <select id="selectStoreByCode" parameterType="int" resultMap="storeResponse">
         SELECT S_NAME, S_IS_OPEN, S_PHONE, S_ADDRESS, S_BIZNUMBER, S_CODE FROM STORE WHERE S_CODE = #{sCode}
+    </select>
+
+    <select id="selectTotalCount" >
+        SELECT
+            COUNT(DISTNACE_WGS84(#{sY}, #{sX}, C.S_Y, C.S_X)) as total_count,
+            MIN(D.MENU_NAME) as menu_name
+        FROM STORE C
+        JOIN MENU D ON (C.S_CODE = D.S_CODE)
+        WHERE (C.S_Y BETWEEN #{sY} - 0.019 AND #{sY} + 0.019) -- 2km이내
+        AND (C.S_X BETWEEN #{sX} - 0.022 AND #{sX} + 0.022) -- 2km이내
+        <if test="searchCondition == 'storeName'">
+            AND C.S_NAME LIKE '%' || #{searchValue} || '%'
+        </if>
+        <if test="searchCondition == 'menuName'">
+            AND D.MENU_NAME LIKE '%' || #{searchValue} || '%'
+        </if>
+        GROUP BY D.S_CODE
+    </select>
+
+
+    <select id="selectStoreList" resultMap="storeResponse" parameterType="map">
+        SELECT
+            A.RN,
+            A.S_NAME,
+            A.S_IS_OPEN,
+            A.S_CODE,
+            A.S_PHONE,
+            A.S_ADDRESS,
+            A.S_BIZNUMBER,
+            A.S_X,
+            A.S_Y,
+            A.MENU_CODE,
+            A.MENU_NAME,
+            A.MENU_PRICE,
+            A.ISORDER
+        FROM (
+            SELECT
+                ROWNUM RN,
+                C.S_NAME,
+                C.S_IS_OPEN,
+                C.S_CODE,
+                C.S_PHONE,
+                C.S_ADDRESS,
+                C.S_BIZNUMBER,
+                C.S_X,
+                C.S_Y,
+                D.MENU_CODE,
+                D.MENU_NAME,
+                D.MENU_PRICE,
+                D.ISORDER,
+                DISTNACE_WGS84(#{location.sY}, #{location.sX}, C.S_Y, C.S_X) AS distance  -- 거리
+            FROM (
+                SELECT
+                    C.S_NAME,
+                    C.S_IS_OPEN,
+                    C.S_CODE,
+                    C.S_PHONE,
+                    C.S_ADDRESS,
+                    C.S_BIZNUMBER,
+                    C.S_X,
+                    C.S_Y
+                FROM STORE C
+                WHERE (C.S_Y BETWEEN #{location.sY} - 0.019 AND #{location.sY} + 0.019)  -- 위도 약 2km 이내
+                  AND (C.S_X BETWEEN #{location.sX} - 0.022 AND #{location.sX} + 0.022)  -- 경도 약 2km 이내
+                  <if test="criteria.searchCondition == 'storeName'">
+                  AND C.S_NAME LIKE '%' || #{criteria.searchValue} || '%'
+                  </if>
+            ) C
+            LEFT JOIN (
+                SELECT
+                    S_CODE,
+                    MIN(MENU_CODE) AS MENU_CODE,
+                    MIN(MENU_NAME) AS MENU_NAME,
+                    MIN(MENU_PRICE) AS MENU_PRICE,
+                    MIN(ISORDER) AS ISORDER
+                FROM MENU
+                <where>
+                    1=1
+                    <if test="criteria.searchCondition == 'menuName'">
+                    AND MENU_NAME LIKE '%' || #{searchValue} || '%'
+                    </if>
+                </where>
+                GROUP BY S_CODE
+            ) D ON (C.S_CODE = D.S_CODE)
+          <![CDATA[
+            WHERE ROWNUM <= #{criteria.endRow}
+          ]]>
+            ORDER BY distance DESC
+        ) A
+        WHERE A.RN >= #{criteria.startRow}
     </select>
 
 

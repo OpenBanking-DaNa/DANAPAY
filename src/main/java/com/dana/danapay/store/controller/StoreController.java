@@ -3,6 +3,7 @@ package com.dana.danapay.store.controller;
 import com.dana.danapay.common.ResponseDTO;
 import com.dana.danapay.store.StoreDTO;
 import com.dana.danapay.store.model.service.StoreService;
+import com.dana.danapay.store.param.StoreListReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
+    // 스토어 등록
     @PostMapping("/regist-new")
     public ResponseEntity<ResponseDTO> storeRegist(@RequestBody StoreDTO storeRequest) {
 
@@ -26,6 +28,23 @@ public class StoreController {
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 등록 결과", storeService.insertNewStore(storeRequest)));
     }
+
+    // 스토어 리스트 조회(페이징)
+    @GetMapping("/list")
+    public ResponseEntity<ResponseDTO> storeList(@ModelAttribute StoreListReq storeRequest) {
+        log.info("storeList ============>  storeRequest{}", storeRequest);
+
+
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 조회 결과", storeService.selectStoreList(storeRequest)));
+
+    }
+
+    // 스토어 검색 조회
+
+    // 스토어 정보 수정
+
+    // 스토어 삭제
 
 
 }
