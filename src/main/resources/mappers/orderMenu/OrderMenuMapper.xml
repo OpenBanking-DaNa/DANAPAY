@@ -5,5 +5,32 @@
 <mapper namespace="com.dana.danapay.orderMenu.model.dao.OrderMenuMapper">
 
 
+    <!-- ORDERS-1. 주문 하기 -->
+    <resultMap id="menuResultMap" type="com.dana.danapay.orderMenu.model.dto.OrderMenuDTO">
+        <id property="menuOrderCode" column="MENU_ORDER_CODE"/>
+        <result property="orderCode" column="ORDER_CODE"/>
+        <result property="menuCode" column="MENU_CODE"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="menuPrice" column="ORDER_PRICE"/>
+    </resultMap>
+
+
+    <!-- ORDERS-1. 주문 하기 -->
+    <!-- ORDERS-1. 주문 하기 -->
+    <insert id="orderMenu" parameterType="com.dana.danapay.orderMenu.model.dto.OrderMenuDTO">
+        INSERT INTO ORDER_MENU (MENU_ORDER_CODE, ORDER_CODE, MENU_CODE, AMOUNT, ORDER_PRICE)
+        VALUES (LPAD(ORDERS_MENU_SEQ.NEXTVAL, 4, '0'), #{orderCode}, #{menuCode}, #{amount}, #{menuPrice})
+    </insert>
+
+<!--    <insert id="orderMenu" parameterType="com.dana.danapay.orderMenu.model.dto.OrderMenuDTO">-->
+<!--        INSERT INTO ORDER_MENU-->
+<!--            (MENU_ORDER_CODE, ORDER_CODE, MENU_CODE, AMOUNT, ORDER_PRICE)-->
+<!--        VALUES-->
+<!--&#45;&#45;             (#{orderCode} || '-' || LPAD(ORDERS_MENU_SEQ.NEXTVAL, 4, '0'),-->
+<!--            (LPAD(ORDERS_MENU_SEQ.NEXTVAL, 4, '0'),-->
+<!--             #{orderCode}, #{menuCode}, #{amount}, #{menuPrice})-->
+<!--    </insert>-->
+
+
 
 </mapper>
