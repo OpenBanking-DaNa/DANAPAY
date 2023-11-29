@@ -1,133 +1,160 @@
-DROP TABLE MEMBER;
-
-CREATE TABLE MEMBER
+create table MEMBER
 (
-    id    VARCHAR2(255) NOT NULL,
-    code    INTEGER NOT NULL,
-    password    VARCHAR2(255) NOT NULL,
-    nickname    VARCHAR2(255) NOT NULL
-);
+    ID       VARCHAR2(255) not null,
+    CODE     NUMBER        not null
+        constraint MEMBER_PK
+            primary key,
+    PASSWORD VARCHAR2(255) not null,
+    NICKNAME VARCHAR2(255) not null
+)
+/
 
-CREATE UNIQUE INDEX MEMBER_PK ON MEMBER
-( code );
-
-ALTER TABLE MEMBER
- ADD CONSTRAINT MEMBER_PK PRIMARY KEY ( code )
- USING INDEX MEMBER_PK;
-
-
-DROP TABLE MENU;
-
-CREATE TABLE MENU
+create table STORE
 (
-    menu_code    VARCHAR2(255) NOT NULL,
-    menu_name    VARCHAR2(255) NOT NULL,
-    menu_price    INTEGER NOT NULL,
-    orderable    CHAR(1) NOT NULL,
-    s_code    INTEGER NOT NULL,
-    order_code    VARCHAR2(255) NOT NULL
-);
+    S_ID        VARCHAR2(255)    not null,
+    S_CODE      NUMBER           not null
+        constraint STORE_PK
+            primary key,
+    S_PASSWORD  VARCHAR2(255)    not null,
+    S_NAME      VARCHAR2(255)    not null,
+    S_IS_OPEN   CHAR default 'N' not null,
+    S_PHONE     VARCHAR2(255),
+    S_ADDRESS   VARCHAR2(255),
+    S_BIZNUMBER NUMBER           not null
+)
+/
 
-CREATE UNIQUE INDEX MENU_PK ON MENU
-( menu_code );
-
-ALTER TABLE MENU
- ADD CONSTRAINT MENU_PK PRIMARY KEY ( menu_code )
- USING INDEX MENU_PK;
-
-DROP TABLE MONEY;
-
-CREATE TABLE MONEY
+create table MENU
 (
-    method    VARCHAR2(255) NOT NULL,
-    code    INTEGER NOT NULL,
-    money    INTEGER NOT NULL,
-    money_date    DATE,
-    money_code varchar2(255) primary key NOT NULL
-);
+    MENU_CODE  VARCHAR2(255) not null
+        constraint MENU_PK
+            primary key,
+    MENU_NAME  VARCHAR2(255) not null,
+    MENU_PRICE NUMBER        not null,
+    ISORDER    CHAR          not null,
+    S_CODE     NUMBER        not null
+        constraint MENU_FK
+            references STORE,
+    ORDER_CODE VARCHAR2(255) not null
+)
+/
 
-CREATE UNIQUE INDEX MONEY_PK ON MONEY
-    ( money_code );
-
-ALTER TABLE MONEY
-    ADD CONSTRAINT MONEY_PK PRIMARY KEY ( money_code )
-        USING INDEX MONEY_PK;
-
-
-DROP TABLE ORDERS;
-
-CREATE TABLE ORDERS
+create table MONEY
 (
-    code    INTEGER NOT NULL,
-    order_code    VARCHAR2(255) primary key NOT NULL,
-    order_date    DATE NOT NULL,
-    total_quantity    VARCHAR2(255) NOT NULL,
-    total_amount    VARCHAR2(255) NOT NULL,
-    status    INTEGER NOT NULL
-);
+    "OPTION"   VARCHAR2(255) not null,
+    CODE       NUMBER        not null
+        constraint MONEY_FK
+            references MEMBER,
+    MONEY      NUMBER        not null,
+    MONEY_DATE DATE,
+    MONEY_CODE VARCHAR2(255) not null
+        primary key
+)
+/
 
-CREATE UNIQUE INDEX ORDER_PK ON ORDERS
-    ( order_code );
-
-ALTER TABLE ORDERS
-    ADD CONSTRAINT ORDERS_PK PRIMARY KEY ( order_code )
-        USING INDEX ORDERS_PK;
-
-
-DROP TABLE ORDER_MENU;
-
-CREATE TABLE ORDER_MENU
+create table ORDERS
 (
-    order_code    VARCHAR2(255) NOT NULL,
-    menu_order_code    VARCHAR2(255) NOT NULL,
-    menu_code    VARCHAR2(255) NOT NULL,
-    amont    INTEGER NOT NULL
-);
+    CODE           NUMBER        not null
+        constraint ORDERS_FK
+            references MEMBER,
+    ORDER_CODE     VARCHAR2(255) not null
+        primary key,
+    ORDER_DATE     DATE          not null,
+    TOTAL_QUANTITY VARCHAR2(255) not null,
+    TOTAL_AMOUNT   VARCHAR2(255) not null,
+    STATUS         NUMBER        not null
+)
+/
 
-CREATE UNIQUE INDEX ORDER_MENU_PK ON ORDER_MENU
-( menu_order_code );
-
-ALTER TABLE ORDER_MENU
- ADD CONSTRAINT ORDER_MENU_PK PRIMARY KEY ( menu_order_code )
- USING INDEX ORDER_MENU_PK;
-
-
-DROP TABLE REVIEW;
-
-CREATE TABLE REVIEW
+create table ORDER_MENU
 (
-    review_code    VARCHAR2(255) NOT NULL,
-    content    VARCHAR2(300),
-    review_date    VARCHAR2(255) NOT NULL,
-    review_star    INTEGER NOT NULL,
-    review_reply    VARCHAR2(300),
-    order_code    VARCHAR2(255) NOT NULL
-);
+    ORDER_CODE      VARCHAR2(255) not null
+        constraint ORDER_MENU
+            references ORDERS,
+    MENU_ORDER_CODE VARCHAR2(255) not null
+        constraint ORDER_MENU_PK
+            primary key,
+    MENU_CODE       VARCHAR2(255) not null
+        constraint ORDER_MENU_FK
+            references MENU,
+    AMONT           NUMBER        not null
+)
+/
 
-CREATE UNIQUE INDEX REVIEW_PK ON REVIEW
-( review_code );
-
-ALTER TABLE REVIEW
- ADD CONSTRAINT REVIEW_PK PRIMARY KEY ( review_code )
- USING INDEX REVIEW_PK;
-
-
-DROP TABLE STORE;
-
-CREATE TABLE STORE
+create table REVIEW
 (
-    s_id    VARCHAR2(255) NOT NULL,
-    s_code    INTEGER NOT NULL,
-    s_password    VARCHAR2(255) NOT NULL,
-    s_name    VARCHAR2(255) NOT NULL,
-    s_is_open    CHAR(1) NOT NULL
-);
+    REVIEW_CODE  VARCHAR2(255) not null
+        constraint REVIEW_PK
+            primary key,
+    CONTENT      VARCHAR2(300),
+    REVIEW_DATE  VARCHAR2(255) not null,
+    REVIEW_STAR  NUMBER        not null,
+    REVIEW_REPLY VARCHAR2(300),
+    ORDER_CODE   VARCHAR2(255) not null
+        constraint REVIEW_FK
+            references ORDERS
+)
+/
 
-CREATE UNIQUE INDEX STORE_PK ON STORE
-( s_code );
 
-ALTER TABLE STORE
- ADD CONSTRAINT STORE_PK PRIMARY KEY ( s_code )
- USING INDEX STORE_PK;
+create sequence store_seq
+increment by 1
+start with 1
+nocache
+nocycle;
 
+select store_seq.currval from dual;
+
+select * from USER_SEQUENCES;
+
+select * from STORE;
+
+alter table MENU drop column ORDER_CODE;
+alter table MENU modify ISORDER default 'Y';
+
+
+create sequence menu_seq
+increment by 1
+start with 1
+nocache
+nocycle ;
+
+alter table STORE add (S_X number, S_Y number);
+
+update STORE Set S_X = 126.984985078053, S_Y = 37.5728606760461 where S_CODE = 4;
+update STORE Set S_X = 126.987158771043, S_Y = 37.572013366472 where S_CODE = 5;
+
+update STORE set S_IS_OPEN = 'Y' where S_CODE = 4;
+
+CREATE INDEX store_inx01 on STORE (S_X ASC, S_Y ASC);
+
+
+-- 좌표 거리 계산 radians 함수 생성
+CREATE OR REPLACE FUNCTION RADIANS(nDegrees IN NUMBER)
+    RETURN NUMBER DETERMINISTIC
+    IS
+BEGIN
+    /*
+    -- radians = degrees / (180 / pi)
+    -- RETURN nDegrees / (180 / ACOS(-1)); but 180/pi is a constant, so...
+    */
+    RETURN nDegrees / 57.29577951308232087679815481410517033235;
+END RADIANS;
+
+-- distance 리턴 함수
+CREATE OR REPLACE FUNCTION DISTNACE_WGS84( Y1 IN NUMBER, X1 IN NUMBER, Y2 IN NUMBER, X2 IN NUMBER)
+    RETURN NUMBER DETERMINISTIC
+    IS
+BEGIN
+    RETURN (
+            6371.0 * ACOS(
+                        COS( RADIANS( Y1 ) ) * COS( RADIANS( Y2 /* 위도 */ ) )
+                        * COS( RADIANS( X2 /* 경도 */ ) - RADIANS( X1 ) )
+                    +
+                        SIN( RADIANS( Y1 ) ) * SIN( RADIANS( Y2 /* 위도 */ ) )
+            ));
+end DISTNACE_WGS84;
+
+
+commit;
 

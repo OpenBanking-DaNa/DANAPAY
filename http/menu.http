@@ -1,4 +1,4 @@
-# 메뉴 등록(1 ~ 100개)
+### 메뉴 등록(1 ~ 100개)
 POST http://localhost:8080/api/menu/regist
 Content-Type: application/json; charset=UTF-8
 
