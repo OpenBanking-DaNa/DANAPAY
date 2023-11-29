@@ -18,4 +18,8 @@ public interface StoreMapper {
     List<Object> selectTotalCount(StoreListReq criteria);
 
     List<StoreDTO> selectStoreList(@Param("criteria") Criteria criteria, @Param("location") StoreListReq location);
+
+    String getPassword(StoreDTO storeRequest);
+
+    int updateStore(StoreDTO storeRequest);
 }

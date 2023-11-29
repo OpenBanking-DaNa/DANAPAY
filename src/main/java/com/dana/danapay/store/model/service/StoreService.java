@@ -59,7 +59,7 @@ public class StoreService {
             Criteria criteria = null;
 
             // 검색조건 있는 경우
-            if(storeReq.getSearchCondition() != null && storeReq.getSearchCondition().equals("")){
+            if(storeReq.getSearchCondition() != null && !storeReq.getSearchCondition().equals("")){
                 criteria = Pagination.getCriteria(storeReq.getCurrentPageNo(), count, limit, button, storeReq.getSearchCondition(), storeReq.getSearchValue());
             // 검색조건 없는 경우
             } else {
@@ -74,6 +74,28 @@ public class StoreService {
              return storeList;
         } else {
             return "반경 2km 이내 스토어 없음";
+        }
+    }
+
+    @Transactional
+    public Object updateStore(StoreDTO storeRequest) {
+        log.info("StoreService updateStore============> storeRequest {}", storeRequest);
+
+        // 비밀번호 조회해온다.
+        String encodePassword = storeMapper.getPassword(storeRequest);
+
+        if(encodePassword != null){
+            // 비밀번호 체킹
+            if(passwordEncoder.matches(storeRequest.getsPassword(), encodePassword)){
+                // 업데이트 진행
+                storeMapper.updateStore(storeRequest);
+                return "스토어 정보 수정 성공";
+
+            } else {
+                return "비밀번호가 다릅니다.";
+            }
+        } else {
+            return "스토어 정보를 찾지 못했습니다.";
         }
     }
 }

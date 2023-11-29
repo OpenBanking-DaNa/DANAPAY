@@ -3,25 +3,25 @@ POST http://localhost:8080/api/menu/regist
 Content-Type: application/json; charset=UTF-8
 
 {
-  "sCode": 4,
+  "sCode": 8,
   "menuList" : [
-    {"menuName": "뜨거운 아메리카노",
-      "menuPrice": 1500
+    {"menuName": "핫 아메리카노",
+      "menuPrice": 1800
     }
-  , {"menuName": "차가운 아메리카노",
+  , {"menuName": "아이스 아메리카노",
       "menuPrice": 2000
     }
-  , {"menuName": "차가운 카푸치노",
+  , {"menuName": "아이스 카페라떼",
       "menuPrice": 4500
     }
-  , {"menuName": "뜨거운 카푸치노",
+  , {"menuName": "핫 카페라떼",
       "menuPrice": 4000
     }
-  , {"menuName": "바닐라쉐이크",
+  , {"menuName": "피스타치오쉐이크",
       "menuPrice": 5000
     }
-  , {"menuName": "스벅보다 저렴한 핫초코",
-      "menuPrice": 7000
+  , {"menuName": "초코쿠키",
+      "menuPrice": 1000
     }
   ]
 }

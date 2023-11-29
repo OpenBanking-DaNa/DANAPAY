@@ -139,5 +139,36 @@
         WHERE A.RN >= #{criteria.startRow}
     </select>
 
+    <select id="getPassword">
+        SELECT
+              S_PASSWORD
+         FROM STORE
+        WHERE S_CODE = #{sCode}
+          AND S_ID = #{sId}
+    </select>
+
+    <update id="updateStore">
+        UPDATE STORE SET
+        <if test="sName != null and sName != ''">
+              S_NAME = #{sName}
+        </if>
+        <if test="sIsOpen != null and sIsOpen != ''">
+            , S_IS_OPEN = #{sIsOpen}
+        </if>
+        <if test="sPhone != null and sPhone != ''">
+            , S_PHONE = #{sPhone}
+        </if>
+        <if test="sAddress != null and sAddress != ''">
+            , S_ADDRESS = #{sAddress}
+        </if>
+        <if test="sX != null and sX != '' and sX != 0">
+            , S_X = #{sX}
+        </if>
+        <if test="sY != null and sY != '' and sY != 0">
+            , S_Y = #{sY}
+        </if>
+        WHERE S_CODE = #{sCode}
+    </update>
+
 
 </mapper>

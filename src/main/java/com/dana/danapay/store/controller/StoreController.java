@@ -34,17 +34,22 @@ public class StoreController {
     public ResponseEntity<ResponseDTO> storeList(@ModelAttribute StoreListReq storeRequest) {
         log.info("storeList ============>  storeRequest{}", storeRequest);
 
-
-
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 조회 결과", storeService.selectStoreList(storeRequest)));
 
     }
 
-    // 스토어 검색 조회
-
     // 스토어 정보 수정
+    @PostMapping("/modify")
+    public ResponseEntity<ResponseDTO> storeModify(@RequestBody StoreDTO storeRequest) {
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 정보 수정 결과", storeService.updateStore(storeRequest)));
+
+    }
+
+
 
     // 스토어 삭제
 
 
+    // 스토어 계정 비밀번호 변경
 }
