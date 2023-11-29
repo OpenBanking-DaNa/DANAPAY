@@ -37,9 +37,17 @@ Accept: */*
 }
 
 ### 스토어 삭제
+POST http://localhost:8080/api/store/delete
+Content-Type: application/json; charset=UTF-8
+Accept: */*
 
+{
+  "sCode": 4,
+  "sId": "s1111",
+  "sPassword": "1111"
+}
 
-# 카카오 좌표 검색(address/keyword)
+### 카카오 좌표 검색(address/keyword)
 GET https://dapi.kakao.com/v2/local/search/keyword?query=종각 메가커피
 Content-Type: application/json;charset=UTF-8
 Authorization: KakaoAK 9d856ef6059845fd957adeacf734d709

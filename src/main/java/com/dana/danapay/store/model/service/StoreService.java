@@ -24,6 +24,7 @@ public class StoreService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // 스토어 신규 등록
     @Transactional
     public Object insertNewStore(StoreDTO storeRequest) {
         log.info("StoreService ============> storeRequest {}", storeRequest);
@@ -46,6 +47,7 @@ public class StoreService {
         }
     }
 
+    // 스토어 목록 조회 (2km 이내만)
     public Object selectStoreList(StoreListReq storeReq) {
 
         int count = storeMapper.selectTotalCount(storeReq).size();
@@ -77,6 +79,7 @@ public class StoreService {
         }
     }
 
+    // 스토어 정보 수정
     @Transactional
     public Object updateStore(StoreDTO storeRequest) {
         log.info("StoreService updateStore============> storeRequest {}", storeRequest);
@@ -90,6 +93,28 @@ public class StoreService {
                 // 업데이트 진행
                 storeMapper.updateStore(storeRequest);
                 return "스토어 정보 수정 성공";
+
+            } else {
+                return "비밀번호가 다릅니다.";
+            }
+        } else {
+            return "스토어 정보를 찾지 못했습니다.";
+        }
+    }
+
+    @Transactional
+    public Object deleteStore(StoreDTO storeRequest) {
+        log.info("StoreService deleteStore============> storeRequest {}", storeRequest);
+
+        // 비밀번호 조회해온다.
+        String encodePassword = storeMapper.getPassword(storeRequest);
+
+        if(encodePassword != null){
+            // 비밀번호 체킹
+            if(passwordEncoder.matches(storeRequest.getsPassword(), encodePassword)){
+                // 삭제 진행
+                storeMapper.deleteStore(storeRequest);
+                return "스토어 삭제 성공";
 
             } else {
                 return "비밀번호가 다릅니다.";

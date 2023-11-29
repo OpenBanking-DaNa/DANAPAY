@@ -170,5 +170,11 @@
         WHERE S_CODE = #{sCode}
     </update>
 
+    <delete id="deleteStore">
+        DELETE
+        FROM STORE
+        WHERE S_CODE = #{sCode}
+    </delete>
+
 
 </mapper>

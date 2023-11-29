@@ -22,4 +22,6 @@ public interface StoreMapper {
     String getPassword(StoreDTO storeRequest);
 
     int updateStore(StoreDTO storeRequest);
+
+    int deleteStore(StoreDTO storeRequest);
 }

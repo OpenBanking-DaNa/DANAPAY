@@ -46,10 +46,14 @@ public class StoreController {
 
     }
 
-
-
     // 스토어 삭제
+    @PostMapping("/remove")
+    public ResponseEntity<ResponseDTO> storeRemove(@RequestBody StoreDTO storeRequest) {
 
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 삭제 결과", storeService.deleteStore(storeRequest)));
+
+    }
 
     // 스토어 계정 비밀번호 변경
+    
 }
