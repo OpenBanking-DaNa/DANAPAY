@@ -1,0 +1,35 @@
+# 메뉴 등록(1 ~ 100개)
+POST http://localhost:8080/api/menu/regist
+Content-Type: application/json; charset=UTF-8
+
+{
+  "sCode": 4,
+  "menuList" : [
+    {"menuName": "뜨거운 아메리카노",
+      "menuPrice": 1500
+    }
+  , {"menuName": "차가운 아메리카노",
+      "menuPrice": 2000
+    }
+  , {"menuName": "차가운 카푸치노",
+      "menuPrice": 4500
+    }
+  , {"menuName": "뜨거운 카푸치노",
+      "menuPrice": 4000
+    }
+  , {"menuName": "바닐라쉐이크",
+      "menuPrice": 5000
+    }
+  , {"menuName": "스벅보다 저렴한 핫초코",
+      "menuPrice": 7000
+    }
+  ]
+}
+
+
+### 메뉴 조회
+GET http://localhost:8080/api/menu/list?sCode=4
+
+### 메뉴 수정(이름, 가격, 주문여부)
+
+### 메뉴 삭제

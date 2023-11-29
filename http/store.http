@@ -1,13 +1,29 @@
+# 스토어 등록
 POST http://localhost:8080/api/store/regist-new
 Content-Type: application/json; charset=UTF-8
 Accept: */*
 Access-Control-Allow-Credentials: *
 
 {
-  "sId": "s1111",
-  "sPassword":"1111",
-  "sName":"바른치킨 종로점",
-  "sPhone": "010-1111-1111",
-  "sAddress":"서울시 종로구 인사동 7길",
-  "sBiznumber": 1112233333
+  "sId": "s2222",
+  "sPassword":"2222",
+  "sName":"스타벅스 인사동점",
+  "sPhone": "010-2222-2222",
+  "sAddress":"서울시 종로구 대일빌딩",
+  "sBiznumber": 1800299891,
+  "sX": 0,
+  "sY": 0
 }
+
+### 스토어 목록 조회
+GET http://localhost:8080/api/store/list
+
+### 스토어 정보 수정(스토어이름, 오픈여부, 연락처, 주소) - 사업자번호 변경시 새로 등록해야함
+
+### 스토어 삭제
+
+
+# 카카오 좌표 검색(address/keyword)
+GET https://dapi.kakao.com/v2/local/search/address?query=인사동 7길
+Content-Type: application/json;charset=UTF-8
+Authorization: KakaoAK 9d856ef6059845fd957adeacf734d709
