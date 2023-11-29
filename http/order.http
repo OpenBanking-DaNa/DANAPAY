@@ -1,0 +1,40 @@
+### ORDER-1. 주문 가능 스토어 조회
+GET http://localhost:8080/api/store/
+Content-Type: application/json
+
+### ORDER-2. 메뉴 조회
+GET http://localhost:8080/api/
+Content-Type: application/json
+
+### ORDER-3. 선택 메뉴 주문
+POST http://localhost:8080/api/order/
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
+
+{
+  "code": 1111,
+  "order":[{
+    "menuCode": "김밥",
+    "amount": 2
+}]
+
+
+}
+
+### 예치금 선물
+POST http://localhost:8080/api/money/gift
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
+
+{
+  "code": 1111,
+  "option": "선물보내기",
+  "money": 100000,
+  "recipientCode": 2222
+}
+
+### 주문-결제하기
+POST http://localhost:8080/api/order/pay/1111
+
