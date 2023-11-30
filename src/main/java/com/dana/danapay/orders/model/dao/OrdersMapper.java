@@ -9,10 +9,17 @@ import java.util.List;
 @Mapper
 public interface OrdersMapper {
 
-    // ORDERS-1. 주문 하기
+    /* ORDERS-1. 선택 메뉴 주문 */
     void order(OrdersDTO ordersDTO);
 
-    // ORDERS-1. 주문 하기 - 메뉴
-//    void orderMenu(List<OrderMenuDTO> orderMenuList);
+    /* ORDERS-1. 선택 메뉴 주문 - 메뉴*/
     void orderMenu(OrderMenuDTO orderMenuDTO);
+
+
+    /* ORDERS-2. 주문상태 변경 - 업체조회 */
+    int searchSCode(String orderCode);
+
+    /* ORDERS-2. 주문상태 변경 */
+    void orderProcess(String orderCode, String updateStatus);
+
 }
