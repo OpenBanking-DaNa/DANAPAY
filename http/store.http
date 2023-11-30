@@ -5,12 +5,12 @@ Accept: */*
 Access-Control-Allow-Credentials: *
 
 {
-  "sId": "s4444",
-  "sPassword":"4444",
-  "sName":"컴포즈커피 안산시청점",
+  "sId": "test",
+  "sPassword":"test",
+  "sName":"test test",
   "sPhone": "031-362-5195",
   "sAddress":"경기 안산시 단원구 고잔로 55",
-  "sBiznumber": 529203696,
+  "sBiznumber": 34343234,
   "sX": 126.83243749521012,
   "sY": 37.31943119012936
 }
@@ -37,14 +37,14 @@ Accept: */*
 }
 
 ### 스토어 삭제
-POST http://localhost:8080/api/store/delete
+POST http://localhost:8080/api/store/remove
 Content-Type: application/json; charset=UTF-8
 Accept: */*
 
 {
-  "sCode": 4,
-  "sId": "s1111",
-  "sPassword": "1111"
+  "sCode": 9,
+  "sId": "test",
+  "sPassword": "test"
 }
 
 

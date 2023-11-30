@@ -23,7 +23,7 @@
                   FROM dual
             </foreach>
             ) new_menu
-            ON (m.MENU_NAME = new_menu.menuName)
+            ON (m.MENU_NAME = new_menu.menuName AND m.S_CODE = new_menu.sCode)
             WHEN MATCHED THEN
                 UPDATE SET m.MENU_PRICE = new_menu.menuPrice
             WHEN NOT MATCHED THEN

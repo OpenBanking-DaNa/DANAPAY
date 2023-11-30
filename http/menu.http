@@ -33,3 +33,5 @@ GET http://localhost:8080/api/menu/list?sCode=4
 ### 메뉴 수정(이름, 가격, 주문여부)
 
 ### 메뉴 삭제
+
+
