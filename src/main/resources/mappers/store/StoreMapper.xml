@@ -170,6 +170,14 @@
         WHERE S_CODE = #{sCode}
     </update>
 
+    <update id="updatePasswordStore">
+        UPDATE STORE SET
+        <if test="sPassword != null and sPassword != ''">
+            S_PASSWORD = #{sPassword}
+        </if>
+        WHERE S_CODE = #{sCode}
+    </update>
+
     <delete id="deleteStore">
         DELETE
         FROM STORE

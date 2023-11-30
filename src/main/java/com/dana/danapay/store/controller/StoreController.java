@@ -4,6 +4,7 @@ import com.dana.danapay.common.ResponseDTO;
 import com.dana.danapay.store.StoreDTO;
 import com.dana.danapay.store.model.service.StoreService;
 import com.dana.danapay.store.param.StoreListReq;
+import com.dana.danapay.store.param.StoreReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +52,14 @@ public class StoreController {
     public ResponseEntity<ResponseDTO> storeRemove(@RequestBody StoreDTO storeRequest) {
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 삭제 결과", storeService.deleteStore(storeRequest)));
-
     }
 
     // 스토어 계정 비밀번호 변경
+    @PostMapping("/password")
+    public ResponseEntity<ResponseDTO> storePassword(@RequestBody StoreReq storeRequest) {
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 비밀번호 변경 결과", storeService.updatePasswordStore(storeRequest)));
+
+    }
     
 }
