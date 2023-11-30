@@ -61,9 +61,9 @@ Content-Type: application/json; charset=UTF-8
 
 
 ### 메뉴 단건 삭제
-DELETE http://localhost:8080/api/menu/5/19
+DELETE http://localhost:8080/api/menu/5/22
 
-### 메뉴 다건 삭제
-DELETE http://localhost:8080/api/menu/5?codes=22,23,24
+### 메뉴 다건 삭제(파라미터 길이제한으로 삭제 수량 제한 두기 약 30~50개?)
+DELETE http://localhost:8080/api/menu/5?codes=96
 
 

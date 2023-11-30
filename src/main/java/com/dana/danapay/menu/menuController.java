@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -71,12 +73,24 @@ public class menuController {
                 menuservice.patchMenu(menus)));
     }
 
-    // 메뉴 단건/다건 삭제
+    // 메뉴 단건 삭제
     @DeleteMapping("/{menuCode}")
     public ResponseEntity<ResponseDTO> deleteMenu(@PathVariable int sCode,
                                                   @PathVariable String menuCode){
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 단건 삭제",
                 menuservice.deleteMenu(sCode, menuCode)));
     }
+
+    // 메뉴 단건/다건 삭제
+    @DeleteMapping
+    public ResponseEntity<ResponseDTO> deleteMenuList(@PathVariable int sCode,
+                                                  @RequestParam String codes){
+
+        List<String> codeList = Arrays.asList(codes.split(","));
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 다건 삭제",
+                menuservice.deleteMenuList(sCode, codeList)));
+    }
+
 
 }

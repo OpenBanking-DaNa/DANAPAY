@@ -76,7 +76,7 @@ public class menuService {
 
             return "200 메뉴 수정 성공 : " + result +"개";
         } else {
-            return "400 메뉴 수정 실패";
+            return "400 메뉴 수정 실패 : " + result +"개";
         }
     }
 
@@ -94,5 +94,18 @@ public class menuService {
         }
     }
 
+    // 코드 다건 삭제
+    @Transactional
+    public Object deleteMenuList(int sCode, List<String> codeList) {
 
+        log.info("deleteMenuList ----- {}", codeList);
+        int result = menuMapper.deleteMenuList(sCode, codeList);
+
+        if(result > 0) {
+
+            return "200 메뉴 삭제 성공 : " + result +"개";
+        } else {
+            return "400 메뉴 삭제 실패 : " + result +"개";
+        }
+    }
 }

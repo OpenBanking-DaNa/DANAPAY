@@ -1,6 +1,7 @@
 package com.dana.danapay.menu;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface MenuMapper {
     int patchMenu(List<menuDTO> menus);
 
     int deleteMenu(int sCode, String menuCode);
+
+    int deleteMenuList(@Param("sCode") int sCode, @Param("list") List<String> codeList);
 }

@@ -79,53 +79,14 @@
         </foreach>
     </update>
 
-    <!--    메뉴 업데이트, 없으면 인서트-->
-<!--    <insert id="updateMenu">-->
-<!--        MERGE INTO MENU m-->
-<!--        USING (-->
-<!--            SELECT-->
-<!--                #{menuCode} AS menuCode-->
-<!--              , #{sCode} AS sCode-->
-<!--            FROM dual-->
-<!--        ) update_menu-->
-<!--        ON (m.MENU_CODE = update_menu.menuCode AND m.S_CODE = update_menu.sCode)-->
-<!--        WHEN MATCHED THEN-->
-<!--        UPDATE-->
-<!--            SET m.S_CODE = #{sCode}-->
-<!--            <if test="menuName != null and menuName != ''">-->
-<!--                , m.MENU_NAME = #{menuName}-->
-<!--            </if>-->
-<!--            <if test="menuPrice != null and menuPrice != 0">-->
-<!--                , m.MENU_PRICE = #{menuPrice}-->
-<!--            </if>-->
-<!--            <if test="isOrder != null and isOrder != ''">-->
-<!--                , m.ISORDER = #{isOrder}-->
-<!--            </if>-->
-<!--        WHEN NOT MATCHED THEN-->
-<!--        INSERT (MENU_CODE, MENU_NAME, MENU_PRICE, S_CODE)-->
-<!--        VALUES (menu_seq.nextval, #{menuName}, #{menuPrice}, #{sCode})-->
-<!--         RETURNING
-                MENU_CODE
-            <if test="menuName != null and menuName != ''">
-                , MENU_NAME
-            </if>
-            <if test="menuPrice != null and menuPrice != 0">
-                , MENU_PRICE
-            </if>
-            <if test="isOrder != null and isOrder != ''">
-                , ISORDER
-            </if>
-        INTO
-            #{menuCode}
-            <if test="menuName != null and menuName != ''">
-                , #{menuName}
-            </if>
-            <if test="menuPrice != null and menuPrice != 0">
-                , #{menuPrice}
-            </if>
-            <if test="isOrder != null and isOrder != ''">
-                ,  #{isOrder}
-            </if>
-<  </insert>-->
+    <delete id="deleteMenu">
+        DELETE FROM MENU WHERE S_CODE = #{sCode} AND MENU_CODE = #{menuCode}
+    </delete>
+
+    <delete id="deleteMenuList">
+        <foreach collection="list" item="menuCode" index="index" separator=";" open="DECLARE BEGIN" close="; END;" >
+            DELETE FROM MENU WHERE S_CODE = #{sCode} AND MENU_CODE = #{menuCode}
+        </foreach>
+    </delete>
 
 </mapper>
