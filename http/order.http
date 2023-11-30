@@ -34,14 +34,6 @@ Access-Control-Allow-Origin: *
   "status": "진행중"
 }
 
-### ORDERS-3. 주문상태 조회
-PUT http://localhost:8080/api/orders/process
+### ORDERS-3. 주문내역 조회 @RequestParam 사용
+GET http://localhost:8080/api/orders/search?code=1111
 Content-Type: application/json
-Accept: */*
-Access-Control-Allow-Origin: *
-
-{
-  "sCode": 0,
-  "orderCode": "20231130-0054",
-  "status": "진행중"
-}

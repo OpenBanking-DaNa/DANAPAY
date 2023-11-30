@@ -3,6 +3,7 @@ package com.dana.danapay.orders.model.service;
 import com.dana.danapay.orderMenu.model.dto.OrderMenuDTO;
 import com.dana.danapay.orders.model.dao.OrdersMapper;
 import com.dana.danapay.orders.model.dto.OrdersDTO;
+import com.dana.danapay.orders.model.dto.OrdersResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,10 +57,6 @@ public class OrdersService {
     public boolean orderProcess(String orderCode, String updateStatus) {
         log.info("OrdersService - orderProcess---- start");
         try {
-            log.info("orderCode {}", orderCode);
-            log.info("updateStatus {}", updateStatus);
-
-
             ordersMapper.orderProcess(orderCode, updateStatus);
 
             log.info("OrdersService - orderProcess---- end");
@@ -70,6 +67,24 @@ public class OrdersService {
         }
     }
 
+    /* ORDERS-3. 주문내역 조회 */
+    public List<OrdersResponseDTO> searchOrders(int code) {
+        log.info("OrdersService - searchOrders---- start");
+        try {
+            List<OrdersResponseDTO> result = ordersMapper.searchOrders(code);
+
+
+
+            log.info("OrdersService - result {}", result);
+
+            log.info("OrdersService - searchOrders---- end");
+            return result;
+        } catch (Exception e) {
+            log.error("에러발생 OrdersService - searchOrders", e);
+            throw e;
+        }
+
+    }
 }
 
 

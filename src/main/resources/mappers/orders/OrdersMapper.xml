@@ -25,6 +25,24 @@
         <result property="menuPrice" column="ORDER_PRICE"/>
     </resultMap>
 
+    <!-- ORDERS-3. 주문내역 조회 -->
+    <resultMap id="OrdersStoreResultMap" type="com.dana.danapay.orders.model.dto.OrdersResponseDTO">
+        <id property="orderCode" column="ORDER_CODE"/>
+        <result property="code" column="CODE"/>
+        <result property="orderDate" column="ORDER_DATE"/>
+        <result property="totalPrice" column="TOTAL_PRICE"/>
+        <result property="totalAmount" column="TOTAL_AMOUNT"/>
+        <result property="status" column="STATUS"/>
+        <result property="sCode" column="S_CODE"/>
+        <collection property="store" resultMap="storeResultMap" />
+    </resultMap>
+    <resultMap id="storeResultMap" type="com.dana.danapay.store.StoreDTO">
+        <id property="sCode" column="S_CODE"/>
+        <result property="sId" column="S_ID"/>
+        <result property="sName" column="S_NAME"/>
+        <result property="sPhone" column="S_PHONE"/>
+        <result property="sAddress" column="S_ADDRESS"/>
+    </resultMap>
 
 
     <!-- ORDERS-1. 선택 메뉴 주문 -->
@@ -52,11 +70,18 @@
         WHERE ORDER_CODE = #{orderCode}
     </select>
 
-
     <!-- ORDERS-2. 주문상태 변경 -->
     <update id="orderProcess">
         UPDATE ORDERS
         SET STATUS = #{updateStatus}
         WHERE ORDER_CODE = #{orderCode}
     </update>
+
+    <!-- ORDERS-3. 주문내역 조회 -->
+    <select id="searchOrders" resultMap="OrdersStoreResultMap">
+        SELECT o.*, s.*
+            FROM ORDERS o
+            LEFT JOIN STORE s ON o.S_CODE = s.S_CODE
+        WHERE o.CODE = #{code}
+    </select>
 </mapper>

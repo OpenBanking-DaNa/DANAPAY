@@ -23,4 +23,12 @@ public class OrdersDTO {
 
     private List<OrderMenuDTO> orderMenuList;
 
+    public OrdersDTO(String orderCode, int code, Date orderDate, int totalPrice, int totalAmount, String status) {
+        this.orderCode = orderCode;
+        this.code = code;
+        this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
+        this.totalAmount = totalAmount;
+        this.status = status;
+    }
 }

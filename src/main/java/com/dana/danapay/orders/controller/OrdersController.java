@@ -5,6 +5,7 @@ import com.dana.danapay.member.model.dao.MemberMapper;
 import com.dana.danapay.orderMenu.model.dto.OrderMenuDTO;
 import com.dana.danapay.orders.model.dao.OrdersMapper;
 import com.dana.danapay.orders.model.dto.OrdersDTO;
+import com.dana.danapay.orders.model.dto.OrdersResponseDTO;
 import com.dana.danapay.orders.model.service.OrdersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -102,5 +103,19 @@ public class OrdersController {
         }
     }
 
+    /* ORDERS-3. 주문내역 조회 @RequestParam 사용 */
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDTO> searchOrders (@RequestParam("code") int code) {
+
+        log.info("OrdersController : searchOrders");
+        try {
+            List<OrdersResponseDTO> result = ordersService.searchOrders(code);
+            log.info("OrdersController : result{}", result);
+            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "주문내역 조회 성공", result));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "주문내역 조회 실패", null));
+        }
+    }
 
 }

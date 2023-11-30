@@ -2,6 +2,7 @@ package com.dana.danapay.orders.model.dao;
 
 import com.dana.danapay.orderMenu.model.dto.OrderMenuDTO;
 import com.dana.danapay.orders.model.dto.OrdersDTO;
+import com.dana.danapay.orders.model.dto.OrdersResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface OrdersMapper {
     /* ORDERS-2. 주문상태 변경 */
     void orderProcess(String orderCode, String updateStatus);
 
+    /* ORDERS-3. 주문내역 조회 */
+    List<OrdersResponseDTO> searchOrders(int code);
 }
