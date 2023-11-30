@@ -50,12 +50,26 @@ public class OrdersService {
         }
     }
 
-    /* ORDERS-2. 주문 처리 */
-//    @Transactional
-//    public boolean orderProcess(OrdersDTO ordersDTO) {
-//
-//
-//    }
 
+    /* ORDERS-2. 주문상태 변경 */
+    @Transactional
+    public boolean orderProcess(String orderCode, String updateStatus) {
+        log.info("OrdersService - orderProcess---- start");
+        try {
+            log.info("orderCode {}", orderCode);
+            log.info("updateStatus {}", updateStatus);
+
+
+            ordersMapper.orderProcess(orderCode, updateStatus);
+
+            log.info("OrdersService - orderProcess---- end");
+            return true;
+        } catch (Exception e) {
+            log.error("에러발생 OrdersService - orderProcess", e);
+            throw e;
+        }
+    }
 
 }
+
+

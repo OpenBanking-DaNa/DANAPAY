@@ -44,4 +44,19 @@
         INSERT INTO ORDER_MENU (MENU_ORDER_CODE, ORDER_CODE, MENU_CODE, AMOUNT, ORDER_PRICE)
         VALUES (#{orderCode} || '-' || LPAD(ORDERS_MENU_SEQ.NEXTVAL, 4, '0'), #{orderCode}, #{menuCode}, #{amount}, #{menuPrice})
     </insert>
+
+
+    <!-- ORDERS-2. 주문상태 변경 - 업체조회 -->
+    <select id="searchSCode" parameterType="com.dana.danapay.orderMenu.model.dto.OrderMenuDTO">
+        SELECT S_CODE FROM ORDERS
+        WHERE ORDER_CODE = #{orderCode}
+    </select>
+
+
+    <!-- ORDERS-2. 주문상태 변경 -->
+    <update id="orderProcess">
+        UPDATE ORDERS
+        SET STATUS = #{updateStatus}
+        WHERE ORDER_CODE = #{orderCode}
+    </update>
 </mapper>

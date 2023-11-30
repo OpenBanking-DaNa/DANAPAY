@@ -6,36 +6,42 @@ Access-Control-Allow-Origin: *
 
 {
   "code": 1111,
-  "sCode" : 4,
+  "sCode": 4,
   "status": "접수",
   "orderMenuList":[
     {
     "menuCode": "37",
-    "amount": 2,
+    "amount": 1,
     "menuPrice": 1500
     },
     {
       "menuCode": "38",
-      "amount": 2,
+      "amount": 3,
       "menuPrice": 4000
     }
   ]
 }
 
-### ORDERS-2. 주문 진행상황 변경 (접수>진행중)
-POST http://localhost:8080/api/orders/process
+### ORDERS-2. 주문상태 변경 (접수>진행중>제조완료>픽업완료)
+PUT http://localhost:8080/api/orders/process
 Content-Type: application/json
 Accept: */*
 Access-Control-Allow-Origin: *
 
+{
+  "sCode": 0,
+  "orderCode": "20231130-0054",
+  "status": "진행중"
+}
 
-
-
-
-### ORDER-1. 주문 가능 스토어 조회
-GET http://localhost:8080/api/store/
+### ORDERS-3. 주문상태 조회
+PUT http://localhost:8080/api/orders/process
 Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
 
-### ORDER-2. 메뉴 조회
-GET http://localhost:8080/api/
-Content-Type: application/json
+{
+  "sCode": 0,
+  "orderCode": "20231130-0054",
+  "status": "진행중"
+}
