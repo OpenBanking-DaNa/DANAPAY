@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/menu")
+@RequestMapping("/api/menu/{sCode}") // 스토어 코드별
 public class menuController {
 
     private final menuService menuservice;
@@ -23,18 +23,49 @@ public class menuController {
         this.menuservice = menuservice;
     }
 
-    @PostMapping("/regist")
-    public ResponseEntity<ResponseDTO> registMenu(@RequestBody StoreDTO menuRequest) {
+    // 메뉴 다건 등록
+    @PostMapping
+    public ResponseEntity<ResponseDTO> insertMenu(@PathVariable int sCode, @RequestBody List<menuDTO> menuRequest) {
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 등록",
+        menuRequest.stream().forEach(menu -> menu.setSCode(sCode));
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 다건 등록",
                 menuservice.insertMenu(menuRequest)));
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<ResponseDTO> menuList(@RequestParam int sCode){
+    // 메뉴 단건 조회
+    @GetMapping("/{menuCode}")
+    public ResponseEntity<ResponseDTO> selectMenu(@PathVariable int sCode, @PathVariable String menuCode){
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 조회",
-                menuservice.selectMenuList(sCode)));
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 목록 조회",
+                menuservice.selectMenuList(sCode, menuCode)));
+    }
 
+    // 메뉴 다건 조회
+    @GetMapping
+    public ResponseEntity<ResponseDTO> selectMenu(@PathVariable int sCode){
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 목록 조회",
+                menuservice.selectMenuList(sCode, null)));
+    }
+
+    // 메뉴 단건 수정
+    @PutMapping("/{menuCode}")
+    public ResponseEntity<ResponseDTO> updateMenu(@PathVariable int sCode,
+                                                @PathVariable String menuCode,
+                                                @RequestBody menuDTO menu){
+        menu.setSCode(sCode);
+        menu.setMenuCode(menuCode);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 수정",
+                menuservice.updateMenu(menu)));
+    }
+
+    // 메뉴 단건 삭제
+    @DeleteMapping("/{menuCode}")
+    public ResponseEntity<ResponseDTO> deleteMenu(@PathVariable int sCode,
+                                                @PathVariable String menuCode){
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 삭제",
+                menuservice.deleteMenu(sCode, menuCode)));
     }
 }

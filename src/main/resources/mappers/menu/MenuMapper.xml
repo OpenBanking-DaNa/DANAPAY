@@ -39,7 +39,18 @@
             ISORDER
         FROM MENU
         WHERE S_CODE = #{sCode}
+        <if test="menuCode != null and menuCode != ''">
+          AND MENU_CODE = #{menuCode}
+        </if>
         ORDER BY 1
     </select>
+
+<!--    <update id="updateMenu">-->
+<!--        UPDATE MENU-->
+<!--           SET-->
+<!--           <if>-->
+
+<!--           </if>-->
+<!--    </update>-->
 
 </mapper>

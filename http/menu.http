@@ -1,10 +1,8 @@
 ### 메뉴 등록(1 ~ 100개)
-POST http://localhost:8080/api/menu/regist
+POST http://localhost:8080/api/menu/5
 Content-Type: application/json; charset=UTF-8
 
-{
-  "sCode": 8,
-  "menuList" : [
+[
     {"menuName": "핫 아메리카노",
       "menuPrice": 1800
     }
@@ -24,14 +22,30 @@ Content-Type: application/json; charset=UTF-8
       "menuPrice": 1000
     }
   ]
-}
+
+### 메뉴 다건 조회
+GET http://localhost:8080/api/menu/5
+
+### 메뉴 단건 조회
+GET http://localhost:8080/api/menu/5/19
+
+### 메뉴 단건 수정(이름, 가격, 주문여부)
+PUT http://localhost:8080/api/menu/5/19
+Content-Type: application/json; charset=UTF-8
+
+    {
+      "menuName": "핫초코",
+      "menuPrice": 4800,
+      "isOrder": "Y"
+    }
+
+### 메뉴 다건 수정
+PATCH http://localhost:8080/api/menu/5
+Content-Type: application/json; charset=UTF-8
 
 
-### 메뉴 조회
-GET http://localhost:8080/api/menu/list?sCode=4
 
-### 메뉴 수정(이름, 가격, 주문여부)
 
 ### 메뉴 삭제
-
+DELETE http://localhost:8080/api/menu/5/
 
