@@ -50,16 +50,49 @@ public class menuService {
         return menuMapper.selectMenuList(sCode, menuCode);
     }
 
+    @Transactional
     // 메뉴 단건 수정
     public Object updateMenu(menuDTO menu) {
 
-    return null;
+        int result = menuMapper.updateMenu(menu);
 
+        if(result > 0) {
+
+            return "200 메뉴 수정 성공 : " + result +"개";
+        } else {
+            return "400 메뉴 수정 실패";
+        }
     }
 
+    @Transactional
+    // 메뉴 다건 수정
+    public Object patchMenu(List<menuDTO> menus) {
+
+        int result = menuMapper.patchMenu(menus);
+
+        System.out.println("menus = " + menus);
+
+        if(result > 0) {
+
+            return "200 메뉴 수정 성공 : " + result +"개";
+        } else {
+            return "400 메뉴 수정 실패";
+        }
+    }
+
+    @Transactional
     // 메뉴 단건 삭제
     public Object deleteMenu(int sCode, String menuCode) {
 
-        return null;
+        int result = menuMapper.deleteMenu(sCode, menuCode);
+
+        if(result > 0) {
+
+            return "200 메뉴 삭제 성공 : " + result +"개";
+        } else {
+            return "400 메뉴 삭제 실패";
+        }
     }
+
+
 }

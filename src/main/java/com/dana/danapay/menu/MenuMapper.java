@@ -9,4 +9,10 @@ public interface MenuMapper {
     int insertMenu(List<menuDTO> menuRequest);
 
     List<menuDTO> selectMenuList(int sCode, String menuCode);
+
+    int updateMenu(menuDTO menu);
+
+    int patchMenu(List<menuDTO> menus);
+
+    int deleteMenu(int sCode, String menuCode);
 }

@@ -4,7 +4,7 @@ Content-Type: application/json; charset=UTF-8
 
 [
     {"menuName": "핫 아메리카노",
-      "menuPrice": 1800
+      "menuPrice": 2000
     }
   , {"menuName": "아이스 아메리카노",
       "menuPrice": 2000
@@ -34,18 +34,36 @@ PUT http://localhost:8080/api/menu/5/19
 Content-Type: application/json; charset=UTF-8
 
     {
-      "menuName": "핫초코",
+      "menuName": "",
       "menuPrice": 4800,
       "isOrder": "Y"
     }
 
-### 메뉴 다건 수정
+### 메뉴 다건 수정 (실패 메세지 떠도 성공한거임...왜그러지)
 PATCH http://localhost:8080/api/menu/5
 Content-Type: application/json; charset=UTF-8
 
+[
+  {
+    "menuCode": "19",
+    "menuPrice": 900
+  },
+  {
+    "menuCode": "21",
+    "isOrder": "N"
+  },
+  {
+    "menuCode": "92",
+    "menuName": "피스타치오 불하부친오"
+  }
+]
 
 
 
-### 메뉴 삭제
-DELETE http://localhost:8080/api/menu/5/
+### 메뉴 단건 삭제
+DELETE http://localhost:8080/api/menu/5/19
+
+### 메뉴 다건 삭제
+DELETE http://localhost:8080/api/menu/5?codes=22,23,24
+
 

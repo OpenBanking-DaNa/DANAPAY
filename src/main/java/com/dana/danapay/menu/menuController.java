@@ -61,11 +61,22 @@ public class menuController {
                 menuservice.updateMenu(menu)));
     }
 
-    // 메뉴 단건 삭제
+    @PatchMapping
+    public ResponseEntity<ResponseDTO> patchMenu(@PathVariable int sCode,
+                                                  @RequestBody List<menuDTO> menus){
+
+        menus.forEach(menu -> menu.setSCode(sCode));
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 수정",
+                menuservice.patchMenu(menus)));
+    }
+
+    // 메뉴 단건/다건 삭제
     @DeleteMapping("/{menuCode}")
     public ResponseEntity<ResponseDTO> deleteMenu(@PathVariable int sCode,
-                                                @PathVariable String menuCode){
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 삭제",
+                                                  @PathVariable String menuCode){
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 단건 삭제",
                 menuservice.deleteMenu(sCode, menuCode)));
     }
+
 }
