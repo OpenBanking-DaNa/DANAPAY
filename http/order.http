@@ -1,12 +1,4 @@
-### ORDER-1. 주문 가능 스토어 조회
-GET http://localhost:8080/api/store/
-Content-Type: application/json
-
-### ORDER-2. 메뉴 조회
-GET http://localhost:8080/api/
-Content-Type: application/json
-
-### ORDER-3. 선택 메뉴 주문
+### ORDERS-1. 선택 메뉴 주문
 POST http://localhost:8080/api/orders/order
 Content-Type: application/json
 Accept: */*
@@ -14,16 +6,36 @@ Access-Control-Allow-Origin: *
 
 {
   "code": 1111,
+  "sCode" : 4,
   "status": "접수",
-  "orderMenuList":[{
-    "menuCode": "20",
-    "amount": 2,
-    "menuPrice": 4000
-},
+  "orderMenuList":[
     {
-      "menuCode": "21",
+    "menuCode": "37",
+    "amount": 2,
+    "menuPrice": 1500
+    },
+    {
+      "menuCode": "38",
       "amount": 2,
-      "menuPrice": 5500
+      "menuPrice": 4000
     }
   ]
 }
+
+### ORDERS-2. 주문 진행상황 변경 (접수>진행중)
+POST http://localhost:8080/api/orders/process
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
+
+
+
+
+
+### ORDER-1. 주문 가능 스토어 조회
+GET http://localhost:8080/api/store/
+Content-Type: application/json
+
+### ORDER-2. 메뉴 조회
+GET http://localhost:8080/api/
+Content-Type: application/json

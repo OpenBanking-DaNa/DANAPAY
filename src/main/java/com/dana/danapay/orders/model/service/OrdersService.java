@@ -1,6 +1,5 @@
 package com.dana.danapay.orders.model.service;
 
-import com.dana.danapay.orderMenu.model.dao.OrderMenuMapper;
 import com.dana.danapay.orderMenu.model.dto.OrderMenuDTO;
 import com.dana.danapay.orders.model.dao.OrdersMapper;
 import com.dana.danapay.orders.model.dto.OrdersDTO;
@@ -15,14 +14,12 @@ import java.util.List;
 public class OrdersService {
 
     private final OrdersMapper ordersMapper;
-    private final OrderMenuMapper orderMenuMapper;
 
-    public OrdersService(OrdersMapper ordersMapper, OrderMenuMapper orderMenuMapper) {
+    public OrdersService(OrdersMapper ordersMapper) {
         this.ordersMapper = ordersMapper;
-        this.orderMenuMapper = orderMenuMapper;
     }
 
-    /* ORDERS-1. 주문 하기 */
+    /* ORDERS-1. 선택 메뉴 주문 */
     @Transactional
     public boolean order(OrdersDTO ordersDTO) {
 
@@ -51,7 +48,14 @@ public class OrdersService {
             log.error("에러발생 OrdersService - order", e);
             throw e;
         }
-
-
     }
+
+    /* ORDERS-2. 주문 처리 */
+//    @Transactional
+//    public boolean orderProcess(OrdersDTO ordersDTO) {
+//
+//
+//    }
+
+
 }

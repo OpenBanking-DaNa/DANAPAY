@@ -2,7 +2,6 @@ package com.dana.danapay.orders.controller;
 
 import com.dana.danapay.common.ResponseDTO;
 import com.dana.danapay.member.model.dao.MemberMapper;
-import com.dana.danapay.orderMenu.model.dao.OrderMenuMapper;
 import com.dana.danapay.orderMenu.model.dto.OrderMenuDTO;
 import com.dana.danapay.orders.model.dto.OrdersDTO;
 import com.dana.danapay.orders.model.service.OrdersService;
@@ -23,19 +22,20 @@ public class OrdersController {
 
     private final OrdersService ordersService;
     private final MemberMapper memberMapper;
-    private final OrderMenuMapper orderMenuMapper;
 
-    public OrdersController(OrdersService ordersService, MemberMapper memberMapper, OrderMenuMapper orderMenuMapper) {
+    public OrdersController(OrdersService ordersService, MemberMapper memberMapper) {
         this.ordersService = ordersService;
         this.memberMapper = memberMapper;
-        this.orderMenuMapper = orderMenuMapper;
     }
 
 
-    /* ORDERS-1. 주문 하기 */
+    /* ORDERS-1. 선택 메뉴 주문 */
     @PostMapping("/order")
     public ResponseEntity<ResponseDTO> order (@RequestBody OrdersDTO ordersDTO) {
         log.info("OrdersController : order");
+        log.info("OrdersController - order : ordersDTO {}", ordersDTO);
+
+
         try {
             // 총금액, 총수량
             List<OrderMenuDTO> orderList = ordersDTO.getOrderMenuList();
