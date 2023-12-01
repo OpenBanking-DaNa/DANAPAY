@@ -1,46 +1,51 @@
-package com.dana.danapay.store;
+package com.dana.danapay.store.model.dto;
 
 
-import com.dana.danapay.menu.menuDTO;
+import com.dana.danapay.auth.model.dto.AuthDTO;
+import com.dana.danapay.menu.model.dto.menuDTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
-public class StoreDTO {
+@ToString
+public class StoreDTO  {
 
     private int sCode;              // 스토어 코드 (시퀀스)
-    private String sId;             // 스토어 계정 아이디
-    private String sPassword;       // 스토어 계정 비밀번호
     private String sName;           // 스토어 이름
     private String sIsOpen;           // 스토어 오픈 여부
 
+    private String sId;
+    private String sPassword;
+
     private String sPhone;          // 스토어 연락처
     private String sAddress;      // 스토어 주소
-
     private long sBiznumber;     // 사업자 번호
-
     private double sX;          // 위치 경도
     private double sY;          // 위치 위도
 
     private List<menuDTO> menuList; // 메뉴리스트
 
+    private List<AuthDTO> authorities;
+
     public StoreDTO() {
     }
 
-    // 메뉴리스트 생성자는 빠짐
-
-
-    public StoreDTO(int sCode, String sId, String sPassword, String sName, String sIsOpen, String sPhone, String sAddress, long sBiznumber, double sX, double sY, List<menuDTO> menuList) {
+    public StoreDTO(int sCode, String sName, String sIsOpen, String sId, String sPassword, String sPhone, String sAddress, long sBiznumber, double sX, double sY, List<menuDTO> menuList, List<AuthDTO> authorities) {
         this.sCode = sCode;
-        this.sId = sId;
-        this.sPassword = sPassword;
         this.sName = sName;
         this.sIsOpen = sIsOpen;
+        this.sId = sId;
+        this.sPassword = sPassword;
         this.sPhone = sPhone;
         this.sAddress = sAddress;
         this.sBiznumber = sBiznumber;
         this.sX = sX;
         this.sY = sY;
         this.menuList = menuList;
+        this.authorities = authorities;
     }
 
     public int getsCode() {
@@ -49,22 +54,6 @@ public class StoreDTO {
 
     public void setsCode(int sCode) {
         this.sCode = sCode;
-    }
-
-    public String getsId() {
-        return sId;
-    }
-
-    public void setsId(String sId) {
-        this.sId = sId;
-    }
-
-    public String getsPassword() {
-        return sPassword;
-    }
-
-    public void setsPassword(String sPassword) {
-        this.sPassword = sPassword;
     }
 
     public String getsName() {
@@ -81,6 +70,22 @@ public class StoreDTO {
 
     public void setsIsOpen(String sIsOpen) {
         this.sIsOpen = sIsOpen;
+    }
+
+    public String getsId() {
+        return sId;
+    }
+
+    public void setsId(String sId) {
+        this.sId = sId;
+    }
+
+    public String getsPassword() {
+        return sPassword;
+    }
+
+    public void setsPassword(String sPassword) {
+        this.sPassword = sPassword;
     }
 
     public String getsPhone() {
@@ -107,14 +112,6 @@ public class StoreDTO {
         this.sBiznumber = sBiznumber;
     }
 
-    public List<menuDTO> getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(List<menuDTO> menuList) {
-        this.menuList = menuList;
-    }
-
     public double getsX() {
         return sX;
     }
@@ -131,20 +128,19 @@ public class StoreDTO {
         this.sY = sY;
     }
 
-    @Override
-    public String toString() {
-        return "StoreDTO{" +
-                "sCode=" + sCode +
-                ", sId='" + sId + '\'' +
-                ", sPassword='" + sPassword + '\'' +
-                ", sName='" + sName + '\'' +
-                ", sIsOpen=" + sIsOpen +
-                ", sPhone='" + sPhone + '\'' +
-                ", sAddress='" + sAddress + '\'' +
-                ", sBiznumber=" + sBiznumber +
-                ", sX=" + sX +
-                ", sY=" + sY +
-                ", menuList=" + menuList +
-                '}';
+    public List<menuDTO> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<menuDTO> menuList) {
+        this.menuList = menuList;
+    }
+
+    public List<AuthDTO> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<AuthDTO> authorities) {
+        this.authorities = authorities;
     }
 }

@@ -1,4 +1,4 @@
-package com.dana.danapay.menu;
+package com.dana.danapay.menu.model.dto;
 
 import lombok.*;
 

@@ -1,5 +1,5 @@
 # 스토어 등록
-POST http://localhost:8080/api/store/regist-new
+POST http://localhost:8080/api/store
 Content-Type: application/json; charset=UTF-8
 Accept: */*
 Access-Control-Allow-Credentials: *
@@ -16,25 +16,37 @@ Access-Control-Allow-Credentials: *
 }
 
 ### 스토어 목록 조회(param = 위도,경도,페이지번호,검색조건,검색어)
-GET http://localhost:8080/api/store/list?sX=126.98849715440&sY=37.5695555893039&currentPageNo=1&searchCondition=&searchValue=
+GET http://localhost:8080/api/store?sX=126.98849715440&sY=37.5695555893039&currentPageNo=1&searchCondition=&searchValue=
 Accept: */*
 
 ### 스토어 정보 수정(스토어이름, 오픈여부, 연락처, 주소) - 사업자번호 변경시 새로 등록해야함
-POST http://localhost:8080/api/store/modify
+PUT http://localhost:8080/api/store/4
 Content-Type: application/json; charset=UTF-8
 Accept: */*
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzMTExMSIsImF1dGgiOlsiUk9MRV9TVE9SRSJdLCJleHAiOjE3Mzc0MjA2NTN9.g9T-nybZuDvahBPl4TuYUkCjxLW5sRBSVt8UmW0HqiFjn2J51v2TnhUp_r89kbO4xWLA0iuJWB9PRyqtJuCjjQ
 
 {
-  "sCode": 4,
   "sId": "s1111",
   "sPassword": "1111",
   "sName": "메가MGC커피 종각역점",
   "sIsOpen": "Y",
   "sPhone": "02-737-0802",
   "sAddress": "서울 종로구 종로 80-2",
+  "sBiznumber": 1112233333,
   "sX": 126.986416565447,
   "sY": 37.569942796293
 }
+
+### 스토어 일부 수정
+PATCH http://localhost:8080/api/store/4
+Content-Type: application/json; charset=UTF-8
+Accept: */*
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzMTExMSIsImF1dGgiOlsiUk9MRV9TVE9SRSJdLCJleHAiOjE3Mzc0MjA2NTN9.g9T-nybZuDvahBPl4TuYUkCjxLW5sRBSVt8UmW0HqiFjn2J51v2TnhUp_r89kbO4xWLA0iuJWB9PRyqtJuCjjQ
+
+{
+  "sIsOpen": "Y"
+}
+
 
 ### 스토어 삭제
 POST http://localhost:8080/api/store/remove
@@ -48,17 +60,6 @@ Accept: */*
 }
 
 
-### 스토어 비밀번호 변경
-POST http://localhost:8080/api/store/password
-Content-Type: application/json; charset=UTF-8
-Accept: */*
-
-{
-  "sCode": 4,
-  "sId": "s1111",
-  "sPassword": "1111",
-  "newPassword": "1111"
-}
 
 
 

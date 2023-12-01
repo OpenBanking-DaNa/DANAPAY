@@ -2,11 +2,12 @@ package com.dana.danapay.store.model.service;
 
 import com.dana.danapay.common.Criteria;
 import com.dana.danapay.common.Pagination;
-import com.dana.danapay.store.StoreDTO;
+import com.dana.danapay.exception.NotFoundStoreException;
+import com.dana.danapay.security.TokenProvider;
+import com.dana.danapay.store.model.dto.StoreDTO;
 import com.dana.danapay.store.model.dao.StoreMapper;
 import com.dana.danapay.store.param.StoreListReq;
 import com.dana.danapay.store.param.StoreListRes;
-import com.dana.danapay.store.param.StoreReq;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,25 +17,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dana.danapay.security.JwtFilter.getUserID;
+
 @Slf4j
 @Service
 public class StoreService {
 
     private final StoreMapper storeMapper;
     private final PasswordEncoder passwordEncoder;
-
+    private final TokenProvider tokenProvider;
     private final ModelMapper mm;
 
 
-    public StoreService(StoreMapper storeMapper, PasswordEncoder passwordEncoder, ModelMapper mm) {
+    public StoreService(StoreMapper storeMapper, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, ModelMapper mm) {
         this.storeMapper = storeMapper;
         this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
         this.mm = mm;
     }
 
     // 스토어 신규 등록
     @Transactional
-    public Object insertNewStore(StoreDTO storeRequest) {
+    public Object addStore(StoreDTO storeRequest) {
         log.info("StoreService ============> storeRequest {}", storeRequest);
 
 
@@ -91,73 +95,49 @@ public class StoreService {
         }
     }
 
-    // 스토어 정보 수정
+    // 스토어 전체 정보 수정
     @Transactional
-    public Object updateStore(StoreDTO storeRequest) {
+    public Object wholeUpdateStore(StoreDTO storeRequest) {
+
+        storeRequest.setsId(getUserID);
         log.info("StoreService updateStore============> storeRequest {}", storeRequest);
 
-        // 비밀번호 조회해온다.
-        String encodePassword = storeMapper.getPassword(storeRequest);
+        try {
+            storeMapper.wholeUpdateStore(storeRequest);
+            return "스토어 수정 성공";
+        } catch (Exception e) {
+            log.error("Error updating store. Store ID: {}", storeRequest.getsId(), e);
+            return "스토어 수정 중 오류가 발생했습니다.";
+        }
+    }
 
-        if(encodePassword != null){
-            // 비밀번호 체킹
-            if(passwordEncoder.matches(storeRequest.getsPassword(), encodePassword)){
-                // 업데이트 진행
-                storeMapper.updateStore(storeRequest);
-                return "스토어 정보 수정 성공";
-
-            } else {
-                return "비밀번호가 다릅니다.";
-            }
-        } else {
-            return "스토어 정보를 찾지 못했습니다.";
+    // 스토어 일부 정보 수정
+    @Transactional
+    public Object anyUpdateStore(StoreDTO storeRequest) {
+        storeRequest.setsId(getUserID);
+        log.info("StoreService anyUpdateStore============> storeRequest {}", storeRequest);
+        try {
+            storeMapper.anyUpdateStore(storeRequest);
+            return "스토어 수정 성공";
+        } catch (Exception e) {
+            log.error("Error updating store. Store ID: {}", storeRequest.getsId(), e);
+            return "스토어 수정 중 오류가 발생했습니다.";
         }
     }
 
     // 스토어 삭제
     @Transactional
-    public Object deleteStore(StoreDTO storeRequest) {
+    public Object removeStore(StoreDTO storeRequest) {
+        storeRequest.setsId(getUserID);
         log.info("StoreService deleteStore============> storeRequest {}", storeRequest);
 
-        // 비밀번호 조회해온다.
-        String encodePassword = storeMapper.getPassword(storeRequest);
+        try {
+            storeMapper.deleteStore(storeRequest);
+            return "스토어 삭제 성공";
 
-        if(encodePassword != null){
-            // 비밀번호 체킹
-            if(passwordEncoder.matches(storeRequest.getsPassword(), encodePassword)){
-                // 삭제 진행
-                storeMapper.deleteStore(storeRequest);
-                return "스토어 삭제 성공";
-
-            } else {
-                return "비밀번호가 다릅니다.";
-            }
-        } else {
-            return "스토어 정보를 찾지 못했습니다.";
-        }
-    }
-
-    // 스토어 비밀번호 수정
-    public Object updatePasswordStore(StoreReq storeRequest) {
-
-        log.info("StoreService updatePasswordStore ============> storeRequest {}", storeRequest);
-
-        // 비밀번호 조회해온다.
-        String encodePassword = storeMapper.getPassword(storeRequest);
-
-        if(encodePassword != null && !storeRequest.getNewPassword().equals("")){
-            // 비밀번호 체킹
-            if(passwordEncoder.matches(storeRequest.getsPassword(), encodePassword)){
-                // 업데이트 진행
-                storeRequest.setsPassword(passwordEncoder.encode(storeRequest.getNewPassword()));
-                storeMapper.updatePasswordStore(storeRequest);
-                return "스토어 비밀번호 수정 성공";
-
-            } else {
-                return "비밀번호가 다릅니다.";
-            }
-        } else {
-            return "스토어 정보를 찾지 못했습니다.";
+        } catch (Exception e) {
+            log.error("Error deleting store. Store ID: {}", storeRequest.getsId(), e);
+            return "스토어 삭제 중 오류가 발생했습니다.";
         }
     }
 
@@ -185,6 +165,5 @@ public class StoreService {
         return R * c;
 
     }
-
 
 }
