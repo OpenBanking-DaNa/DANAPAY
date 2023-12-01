@@ -66,7 +66,6 @@ public class ReviewController {
 
         try {
             List<ReviewDTO> result = reviewService.searchReviewByCode(code);
-
             return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "리뷰조회 성공", result));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -81,9 +80,7 @@ public class ReviewController {
         log.info("ReviewController - searchReviewByOrderCode : code {}", orderCode);
 
         try {
-
             List<ReviewDTO> result = reviewService.searchReviewByOrderCode(orderCode);
-
             return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "리뷰조회 성공", result));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
