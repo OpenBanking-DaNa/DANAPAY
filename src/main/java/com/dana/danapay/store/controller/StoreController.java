@@ -9,6 +9,7 @@ import com.dana.danapay.store.param.StorePasswordOnly;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,6 @@ public class StoreController {
         this.storeService = storeService;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     // 스토어 등록
     @PostMapping
@@ -45,26 +45,30 @@ public class StoreController {
     }
 
     // 스토어 전체 정보 수정
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @PutMapping("/{sCode}")
-    public ResponseEntity<ResponseDTO> replaceStore(@PathVariable int sCode, @RequestBody StoreDTO storeRequest) {
-        storeRequest.setSCode(sCode);
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 정보 수정 결과", storeService.replaceStore(storeRequest)));
+    public ResponseEntity<ResponseDTO> wholeUpdateStore(@PathVariable int sCode, @RequestBody StoreDTO storeRequest) {
+        storeRequest.setsCode(sCode);
+        log.info("wholeUpdateStore ============>  storeRequest{}", storeRequest);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 정보 수정 결과", storeService.wholeUpdateStore(storeRequest)));
 
     }
 
     // 스토어 계정 비밀번호 변경
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @PatchMapping("/{sCode}")
-    public ResponseEntity<ResponseDTO> updatePasswordStore(@PathVariable int sCode, @RequestBody StorePasswordOnly storeRequest) {
-        storeRequest.setSCode(sCode);
-        storeRequest.setNewPassword(passwordEncoder.encode(storeRequest.getNewPassword()));
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 비밀번호 변경 결과", storeService.replaceStore(storeRequest)));
+    public ResponseEntity<ResponseDTO> anyUpdateStore(@PathVariable int sCode, @RequestBody StoreDTO storeRequest) {
+        storeRequest.setsCode(sCode);
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 정보 수정 결과", storeService.anyUpdateStore(storeRequest)));
     }
 
 
     // 스토어 삭제
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @DeleteMapping("/{sCode}")
     public ResponseEntity<ResponseDTO> removeStore(@PathVariable int sCode, @RequestBody StoreDTO storeRequest) {
-        storeRequest.setSCode(sCode);
+        storeRequest.setsCode(sCode);
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 삭제 결과", storeService.removeStore(storeRequest)));
     }
 

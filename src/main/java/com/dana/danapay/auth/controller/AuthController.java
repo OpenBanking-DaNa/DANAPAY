@@ -1,5 +1,6 @@
 package com.dana.danapay.auth.controller;
 
+import com.dana.danapay.auth.model.dto.LoginUser;
 import com.dana.danapay.auth.model.service.AuthService;
 import com.dana.danapay.common.ResponseDTO;
 import com.dana.danapay.store.model.dto.Account;
@@ -23,7 +24,7 @@ public class AuthController {
 
     // member Login
     @PostMapping("/member")
-    public ResponseEntity<ResponseDTO> memberLogin(@RequestBody Account request) {
+    public ResponseEntity<ResponseDTO> memberLogin(@RequestBody LoginUser request) {
         log.info("memberLogin============> request {}", request);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "멤버 로그인", authService.memberLogin(request)));
@@ -32,7 +33,7 @@ public class AuthController {
 
     // store login
     @PostMapping("/store")
-    public ResponseEntity<ResponseDTO> storeLogin(@RequestBody Account request) {
+    public ResponseEntity<ResponseDTO> storeLogin(@RequestBody LoginUser request) {
         log.info("storeLogin============> request {}", request);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "스토어 로그인", authService.storeLogin(request)));

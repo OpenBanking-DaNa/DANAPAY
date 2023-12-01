@@ -23,6 +23,7 @@ Accept: */*
 PUT http://localhost:8080/api/store/4
 Content-Type: application/json; charset=UTF-8
 Accept: */*
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzMTExMSIsImF1dGgiOlsiUk9MRV9TVE9SRSJdLCJleHAiOjE3Mzc0MjA2NTN9.g9T-nybZuDvahBPl4TuYUkCjxLW5sRBSVt8UmW0HqiFjn2J51v2TnhUp_r89kbO4xWLA0iuJWB9PRyqtJuCjjQ
 
 {
   "sId": "s1111",
@@ -36,6 +37,17 @@ Accept: */*
   "sY": 37.569942796293
 }
 
+### 스토어 일부 수정
+PATCH http://localhost:8080/api/store/4
+Content-Type: application/json; charset=UTF-8
+Accept: */*
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzMTExMSIsImF1dGgiOlsiUk9MRV9TVE9SRSJdLCJleHAiOjE3Mzc0MjA2NTN9.g9T-nybZuDvahBPl4TuYUkCjxLW5sRBSVt8UmW0HqiFjn2J51v2TnhUp_r89kbO4xWLA0iuJWB9PRyqtJuCjjQ
+
+{
+  "sIsOpen": "Y"
+}
+
+
 ### 스토어 삭제
 POST http://localhost:8080/api/store/remove
 Content-Type: application/json; charset=UTF-8
@@ -48,17 +60,6 @@ Accept: */*
 }
 
 
-### 스토어 비밀번호 변경
-POST http://localhost:8080/api/store/password
-Content-Type: application/json; charset=UTF-8
-Accept: */*
-
-{
-  "sCode": 4,
-  "sId": "s1111",
-  "sPassword": "1111",
-  "newPassword": "1111"
-}
 
 
 

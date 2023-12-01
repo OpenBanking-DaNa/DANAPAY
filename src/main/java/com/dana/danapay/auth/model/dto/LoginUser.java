@@ -1,27 +1,25 @@
 package com.dana.danapay.auth.model.dto;
 
 
-import com.dana.danapay.auth.model.dto.AuthDTO;
-import com.dana.danapay.menu.menuDTO;
-import com.dana.danapay.store.model.dto.Account;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginStore implements UserDetails {
+public class LoginUser implements UserDetails {
 
-    private int sCode;              // 스토어 코드 (시퀀스)
-    private String sName;           // 스토어 이름
-    private String sId;
+    private int code;              // 스토어 코드 (시퀀스)
+    private String name;           // 스토어 이름
+    private String id;
+    private String password;
 
     private List<AuthDTO> roleList;
 
@@ -35,12 +33,12 @@ public class LoginStore implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return this.sName;
+        return this.name;
     }
 
     @Override

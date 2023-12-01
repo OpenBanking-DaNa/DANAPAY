@@ -1,8 +1,7 @@
 package com.dana.danapay.auth.model.service;
 
-import com.dana.danapay.auth.model.dto.LoginStore;
-import com.dana.danapay.store.model.dao.StoreMapper;
-import com.dana.danapay.store.model.dto.StoreDTO;
+import com.dana.danapay.auth.model.dao.AuthMapper;
+import com.dana.danapay.auth.model.dto.LoginUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,20 +22,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final StoreMapper storeMapper;
+    private final AuthMapper authMapper;
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String sId) throws UsernameNotFoundException {
 
-        LoginStore loginStore = storeMapper.findByStoreId(sId);
+        LoginUser loginUser = authMapper.findByStoreId(sId);
 
         List<GrantedAuthority> authority = new ArrayList<>();
-        loginStore.getRoleList().stream().map(role -> role.getAuthName()).distinct()
+        loginUser.getRoleList().stream().map(role -> role.getAuthName()).distinct()
                         .map(auth -> authority.add(new SimpleGrantedAuthority(auth)))
                                 .collect(Collectors.toList());
 
-        loginStore.setGrandAuthorities(authority);
-        return loginStore;
+        loginUser.setGrandAuthorities(authority);
+        log.info("[CustomUserDetailsService] loadUserByUsername : loginUser === {}", loginUser);
+        return loginUser;
     }
 }

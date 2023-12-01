@@ -1,10 +1,13 @@
-package com.dana.danapay.menu;
+package com.dana.danapay.menu.controller;
 
 import com.dana.danapay.common.ResponseDTO;
+import com.dana.danapay.menu.model.dto.menuDTO;
+import com.dana.danapay.menu.model.service.menuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -24,6 +27,7 @@ public class menuController {
     }
 
     // 메뉴 다건 등록
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDTO> insertMenu(@PathVariable int sCode, @RequestBody List<menuDTO> menuRequest) {
 
@@ -50,6 +54,7 @@ public class menuController {
     }
 
     // 메뉴 단건 수정
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @PutMapping("/{menuCode}")
     public ResponseEntity<ResponseDTO> updateMenu(@PathVariable int sCode,
                                                 @PathVariable String menuCode,
@@ -60,7 +65,7 @@ public class menuController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), "메뉴 수정",
                 menuservice.updateMenu(menu)));
     }
-
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @PatchMapping
     public ResponseEntity<ResponseDTO> patchMenu(@PathVariable int sCode,
                                                   @RequestBody List<menuDTO> menus){
@@ -72,6 +77,7 @@ public class menuController {
     }
 
     // 메뉴 단건 삭제
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @DeleteMapping("/{menuCode}")
     public ResponseEntity<ResponseDTO> deleteMenu(@PathVariable int sCode,
                                                   @PathVariable String menuCode){
@@ -80,6 +86,7 @@ public class menuController {
     }
 
     // 메뉴 단건/다건 삭제
+    @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @DeleteMapping
     public ResponseEntity<ResponseDTO> deleteMenuList(@PathVariable int sCode,
                                                   @RequestParam String codes){

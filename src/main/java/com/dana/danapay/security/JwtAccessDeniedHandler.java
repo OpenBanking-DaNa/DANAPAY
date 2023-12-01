@@ -15,7 +15,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response
             , AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED); // 인증되지 않을때 401 코드 발생(권한없음)
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "권한 없음. 접근 가능한 요청이 아닙니다."); // 인증되지 않을때 401 코드 발생(권한없음)
     }
 
 }

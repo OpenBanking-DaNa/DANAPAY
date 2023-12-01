@@ -1,6 +1,6 @@
 package com.dana.danapay.store.param;
 
-import com.dana.danapay.menu.menuDTO;
+import com.dana.danapay.menu.model.dto.menuDTO;
 
 import java.util.List;
 

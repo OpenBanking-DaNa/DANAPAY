@@ -2,13 +2,12 @@ package com.dana.danapay.store.model.service;
 
 import com.dana.danapay.common.Criteria;
 import com.dana.danapay.common.Pagination;
-import com.dana.danapay.exception.PasswordException;
-import com.dana.danapay.store.model.dto.Account;
+import com.dana.danapay.exception.NotFoundStoreException;
+import com.dana.danapay.security.TokenProvider;
 import com.dana.danapay.store.model.dto.StoreDTO;
 import com.dana.danapay.store.model.dao.StoreMapper;
 import com.dana.danapay.store.param.StoreListReq;
 import com.dana.danapay.store.param.StoreListRes;
-import com.dana.danapay.store.param.StorePasswordOnly;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,19 +17,22 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dana.danapay.security.JwtFilter.getUserID;
+
 @Slf4j
 @Service
 public class StoreService {
 
     private final StoreMapper storeMapper;
     private final PasswordEncoder passwordEncoder;
-
+    private final TokenProvider tokenProvider;
     private final ModelMapper mm;
 
 
-    public StoreService(StoreMapper storeMapper, PasswordEncoder passwordEncoder, ModelMapper mm) {
+    public StoreService(StoreMapper storeMapper, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, ModelMapper mm) {
         this.storeMapper = storeMapper;
         this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
         this.mm = mm;
     }
 
@@ -40,7 +42,7 @@ public class StoreService {
         log.info("StoreService ============> storeRequest {}", storeRequest);
 
 
-        storeRequest.setSPassword(passwordEncoder.encode(storeRequest.getSPassword()));
+        storeRequest.setsPassword(passwordEncoder.encode(storeRequest.getsPassword()));
 
         System.out.println("storeRequest.hashCode() = " + storeRequest.hashCode());
 
@@ -48,7 +50,7 @@ public class StoreService {
 
         if( result > 0 ) {
 
-            int registCode = storeRequest.getSCode();
+            int registCode = storeRequest.getsCode();
 
             return storeMapper.selectStoreByCode(registCode);
         }
@@ -93,21 +95,32 @@ public class StoreService {
         }
     }
 
-    // 스토어 정보 수정
+    // 스토어 전체 정보 수정
     @Transactional
-    public <T extends Account> Object replaceStore(T storeRequest) {
+    public Object wholeUpdateStore(StoreDTO storeRequest) {
+
+        storeRequest.setsId(getUserID);
         log.info("StoreService updateStore============> storeRequest {}", storeRequest);
 
         try {
-            // 비밀번호 체크 불일치
-            if (!passwordCheck(storeRequest)) {
-                return "비밀번호가 일치하지 않습니다.";
-            }
-            // 일치
-            storeMapper.updateStore(storeRequest);
+            storeMapper.wholeUpdateStore(storeRequest);
             return "스토어 수정 성공";
         } catch (Exception e) {
-            log.error("Error updating store. Store ID: {}", storeRequest.id(), e);
+            log.error("Error updating store. Store ID: {}", storeRequest.getsId(), e);
+            return "스토어 수정 중 오류가 발생했습니다.";
+        }
+    }
+
+    // 스토어 일부 정보 수정
+    @Transactional
+    public Object anyUpdateStore(StoreDTO storeRequest) {
+        storeRequest.setsId(getUserID);
+        log.info("StoreService anyUpdateStore============> storeRequest {}", storeRequest);
+        try {
+            storeMapper.anyUpdateStore(storeRequest);
+            return "스토어 수정 성공";
+        } catch (Exception e) {
+            log.error("Error updating store. Store ID: {}", storeRequest.getsId(), e);
             return "스토어 수정 중 오류가 발생했습니다.";
         }
     }
@@ -115,43 +128,19 @@ public class StoreService {
     // 스토어 삭제
     @Transactional
     public Object removeStore(StoreDTO storeRequest) {
+        storeRequest.setsId(getUserID);
         log.info("StoreService deleteStore============> storeRequest {}", storeRequest);
 
         try {
-            // 비밀번호 체크 불일치
-            if (!passwordCheck(storeRequest)) {
-                return "비밀번호가 일치하지 않습니다.";
-            }
-            // 일치
             storeMapper.deleteStore(storeRequest);
             return "스토어 삭제 성공";
 
         } catch (Exception e) {
-            log.error("Error deleting store. Store ID: {}", storeRequest.getSId(), e);
+            log.error("Error deleting store. Store ID: {}", storeRequest.getsId(), e);
             return "스토어 삭제 중 오류가 발생했습니다.";
         }
     }
 
-
-    // 비밀번호 체크
-    private <T extends Account> boolean passwordCheck(T storeRequest){
-        try {
-            String encodePassword = storeMapper.getPassword(storeRequest);
-
-            if (encodePassword != null && passwordEncoder.matches(storeRequest.password(), encodePassword)) {
-                // 비밀번호 일치
-                return true;
-            } else {
-                // 비밀번호 불일치
-                log.warn("비밀번호가 틀립니다. Store ID: " + storeRequest.id());
-                return false;
-            }
-        } catch (Exception e) {
-            // Log the exception and throw a custom exception
-            log.error("비밀번호 확인 중 오류가 발생했습니다. Store ID: " + storeRequest.id(), e);
-            throw new PasswordException("비밀번호 확인 중 오류가 발생했습니다.");
-        }
-    }
     // 좌표간 거리 계산기
     private static double distance(double y1, double x1, double y2, double x2){
 
@@ -176,6 +165,5 @@ public class StoreService {
         return R * c;
 
     }
-
 
 }

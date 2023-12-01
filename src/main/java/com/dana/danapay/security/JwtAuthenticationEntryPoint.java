@@ -15,7 +15,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response
             , AuthenticationException authException) throws IOException, ServletException {
 
-        response.sendError(HttpServletResponse.SC_FORBIDDEN); // 인가되지 않았을 때 403
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "접근 가능한 요청이 아닙니다."); // 인가되지 않았을 때 403
 
     }
 }

@@ -15,23 +15,16 @@
         <result property="sBiznumber" column="S_BIZNUMBER"/>
         <result property="sX" column="S_X"/>
         <result property="sY" column="S_Y"/>
-        <collection property="auth" resultMap="authResponse"/>
         <collection property="menuList" resultMap="menuResponse"/>
     </resultMap>
 
-    <resultMap id="menuResponse" type="com.dana.danapay.menu.menuDTO">
+    <resultMap id="menuResponse" type="com.dana.danapay.menu.model.dto.menuDTO">
         <id property="menuCode" column="MENU_CODE"/>
         <result property="menuName" column="MENU_NAME"/>
         <result property="menuPrice" column="MENU_PRICE"/>
         <result property="isOrder" column="ISORDER"/>
         <result property="sCode" column="S_CODE"/>
     </resultMap>
-
-    <resultMap id="authResponse" type="com.dana.danapay.auth.model.dto.AuthDTO">
-        <id property="authCode" column="AUTH_CODE"/>
-        <result property="authName" column="AUTH_NAME"/>
-    </resultMap>
-
 
 <!--  스토어 등록  -->
     <insert id="insertNewStore" parameterType="com.dana.danapay.store.model.dto.StoreDTO" useGeneratedKeys="true" keyProperty="sCode">
@@ -145,14 +138,18 @@
         WHERE A.RN >= #{criteria.startRow}
     </select>
 
-    <select id="getPassword">
-        SELECT
-              S_PASSWORD
-         FROM STORE
-        WHERE S_ID = #{sId} AND S_CODE = #{sCode}
-    </select>
+    <update id="wholeUpdateStore">
+        UPDATE STORE SET
+              S_NAME = #{sName}
+            , S_IS_OPEN = #{sIsOpen}
+            , S_PHONE = #{sPhone}
+            , S_ADDRESS = #{sAddress}
+            , S_X = #{sX}
+            , S_Y = #{sY}
+        WHERE S_CODE = #{sCode} AND S_ID = #{sId}
+    </update>
 
-    <update id="updateStore">
+    <update id="anyUpdateStore">
         UPDATE STORE SET S_CODE = #{sCode}
         <if test="sName != null and sName != ''">
             , S_NAME = #{sName}
@@ -172,22 +169,11 @@
         <if test="sY != null and sY != '' and sY != 0">
             , S_Y = #{sY}
         </if>
-        <if test="sBiznumber != null and sBiznumber != '' and sBiznumber != 0">
-            , S_BIZNUMBER = #{sBiznumber}
-        </if>
-        <if test="newPassword != null and newPassword != '' and newPassword != 0">
-            , S_PASSWORD = #{newPassword}
+        <if test="sPassword != null and sPassword != '' and sPassword != 0">
+            , S_PASSWORD = #{sPassword}
         </if>
         WHERE S_CODE = #{sCode} AND S_ID = #{sId}
     </update>
-
-<!--    <update id="updatePasswordStore">-->
-<!--        UPDATE STORE SET-->
-<!--        <if test="sPassword != null and sPassword != ''">-->
-<!--            S_PASSWORD = #{sPassword}-->
-<!--        </if>-->
-<!--        WHERE S_ID = #{sId}-->
-<!--    </update>-->
 
     <delete id="deleteStore">
         DELETE
@@ -195,11 +181,6 @@
         WHERE S_CODE = #{sCode} AND S_ID = #{sId}
     </delete>
 
-    <select id="findByStoreId" resultMap="storeResponse">
-        SELECT
-               A.S_ID, A.S_CODE, A.S_NAME, A.ROLE, B.AUTH_NAME
-          FROM STORE JOIN AUTH B (A.ROLE = B.AUTH_CODE)
-         WHERE S_ID = #{sId}
-    </select>
+
 
 </mapper>

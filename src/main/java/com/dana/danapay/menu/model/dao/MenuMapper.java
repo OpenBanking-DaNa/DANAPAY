@@ -1,5 +1,6 @@
-package com.dana.danapay.menu;
+package com.dana.danapay.menu.model.dao;
 
+import com.dana.danapay.menu.model.dto.menuDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,5 +1,6 @@
 package com.dana.danapay.security;
 
+import com.dana.danapay.auth.model.dto.LoginUser;
 import com.dana.danapay.exception.TokenException;
 import com.dana.danapay.security.dto.TokenDTO;
 import com.dana.danapay.store.model.dto.StoreDTO;
@@ -20,6 +21,8 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.security.Key;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -29,7 +32,7 @@ public class TokenProvider {
     private final Key key;     // access 토큰 전용 시크릿키
 
     @Value("${jwt.expire-time}")
-    public static long ACCESS_TOKEN_EXPIRE_TIME;
+    public long ACCESS_TOKEN_EXPIRE_TIME;
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private final UserDetailsService userDetailsService;
 
@@ -41,40 +44,37 @@ public class TokenProvider {
     }
 
     // 1. 토큰 생성
-//    public TokenDTO generateTokenDTO(StoreDTO loginRequest) {
-//        log.info("[TokenProvider] generateTokenDTO : loginMemberDTO === {}", loginRequest);
-//
-//        // 클레임 설정(회원아이디, 권한)
-//        Claims claims = Jwts.claims().setSubject(loginRequest.id()); // id
-//        claims.put(AUTHORITIES_KEY, loginRequest.getRoleList().stream()
-//                .map(role -> role.getAuthCode()).distinct()
-//                .collect(Collectors.toList())); // "auth" - "roles"
-//
-//        // 만료시간 설정
-//        long now = System.currentTimeMillis();
-//        Date AccessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-//
-//        String accessToken = Jwts.builder()
-//                .setClaims(claims)
-//                .setExpiration(AccessTokenExpiresIn)
-//                .signWith(key, SignatureAlgorithm.HS512)
-//                .compact();
-//
-//        log.info("[TokenProvider] generateTokenDTO : accessToken === {}", accessToken);
-//
-//        return TokenDTO.builder().grantType(BEARER_TYPE)
-//                .accessToken(accessToken)
-//                .accessTokenExpiresIn(now + ACCESS_TOKEN_EXPIRE_TIME)
-//                .refreshTokenExpiresIn(now + REFRESH_TOKEN_EXPIRE_TIME)
-//                .memberName(loginMemberDTO.getName())
-//                .empNo(loginMemberDTO.getEmpNo())
-//                .deptName(loginMemberDTO.getDeptName())
-//                .jobName(loginMemberDTO.getJobName())
-//                .role(loginMemberDTO.getRoleList().toString())
-//                .isTempPwd(loginMemberDTO.getIsTempPwd())
-//                .accountDTO(AccountDTO.builder().isTempPwd(loginMemberDTO.getIsTempPwd()).pwdExpiredDate(loginMemberDTO.getPwdExpiredDate()).build())
-//                .build();
-//    }
+    public TokenDTO generateTokenDTO(LoginUser loginUser) {
+        log.info("[TokenProvider] generateTokenDTO : loginUser === {}", loginUser);
+
+        // 클레임 설정( + 회원아이디, 권한)
+        Claims claims = Jwts.claims().setSubject(loginUser.getId()); // id
+        claims.put(AUTHORITIES_KEY, loginUser.getRoleList().stream()
+                .map(role -> role.getAuthName()).distinct()
+                .collect(Collectors.toList()));
+
+        // 만료시간 설정
+        long now = System.currentTimeMillis();
+        Date AccessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        log.info("[TokenProvider] generateTokenDTO : ACCESS_TOKEN_EXPIRE_TIME === {}", ACCESS_TOKEN_EXPIRE_TIME);
+
+
+        // 엑세스 토큰 빌드
+        String accessToken = Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(AccessTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+        log.info("[TokenProvider] generateTokenDTO : accessToken === {}", accessToken);
+
+        // 응답 토큰객체 빌드 및 리턴
+        return  TokenDTO.builder().grantType(BEARER_TYPE)
+                .accessToken(accessToken)
+                .accessTokenExpiresIn(now + ACCESS_TOKEN_EXPIRE_TIME)
+                .code(loginUser.getCode())
+                .name(loginUser.getName())
+                .build();
+    }
 
     // 토큰 헤더 추출
     public String resolveToken(HttpServletRequest request) {
@@ -137,7 +137,7 @@ public class TokenProvider {
                 .setSigningKey(key).build()
                 .parseClaimsJws(jwt)
                 .getBody()
-                .getId(); // claims 추출
+                .getSubject();
                 // subject에 id, auth값 담겨있음
     }
 
