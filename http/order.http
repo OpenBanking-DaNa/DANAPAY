@@ -39,5 +39,5 @@ GET http://localhost:8080/api/orders/search?code=1111
 Content-Type: application/json
 
 ### ORDERS-4. 주문내역 상세조회 @PathVariable 사용
-GET http://localhost:8080/api/orders/search/detail/20231130-0054
+GET http://localhost:8080/api/orders/search/detail/20231201-0057
 Content-Type: application/json

@@ -53,7 +53,7 @@ public class MoneyService {
         }
     }
 
-    /* MONEY-3. 예치금 충전 */
+    /* MONEY-3. 예치금 충전/사용 */
     @Transactional
     public boolean chargeMoney(MoneyDTO moneyDTO) {
 

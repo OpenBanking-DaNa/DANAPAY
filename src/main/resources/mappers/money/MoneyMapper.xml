@@ -20,7 +20,7 @@
         WHERE CODE = #{code}
     </select>
 
-    <!-- MONEY-3. 예치금 충전 -->
+    <!-- MONEY-3. 예치금 충전/사용 -->
     <insert id="chargeMoney" parameterType="com.dana.danapay.money.model.dto.MoneyDTO">
         INSERT INTO MONEY
         (MONEY_CODE, CODE, "OPTION", MONEY, "MONEY_DATE")

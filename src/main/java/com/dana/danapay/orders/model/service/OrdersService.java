@@ -1,5 +1,8 @@
 package com.dana.danapay.orders.model.service;
 
+import com.dana.danapay.member.model.dao.MemberMapper;
+import com.dana.danapay.money.model.dao.MoneyMapper;
+import com.dana.danapay.money.model.dto.MoneyDTO;
 import com.dana.danapay.orderMenu.model.dto.OrderMenuDTO;
 import com.dana.danapay.orders.model.dao.OrdersMapper;
 import com.dana.danapay.orders.model.dto.OrdersDTO;
@@ -15,9 +18,13 @@ import java.util.List;
 public class OrdersService {
 
     private final OrdersMapper ordersMapper;
+    private final MemberMapper memberMapper;
+    private final MoneyMapper moneyMapper;
 
-    public OrdersService(OrdersMapper ordersMapper) {
+    public OrdersService(OrdersMapper ordersMapper, MemberMapper memberMapper, MoneyMapper moneyMapper) {
         this.ordersMapper = ordersMapper;
+        this.memberMapper = memberMapper;
+        this.moneyMapper = moneyMapper;
     }
 
     /* ORDERS-1. 선택 메뉴 주문 */
@@ -41,7 +48,17 @@ public class OrdersService {
                 orderMenuDTO.setOrderCode(ordersDTO.getOrderCode());
                 ordersMapper.orderMenu(orderMenuDTO);
             }
-            log.info("orderMenuList 222  {}", orderMenuList);
+
+            // 예치금 차감
+            MoneyDTO moneyDTO = new MoneyDTO();
+            moneyDTO.setCode(ordersDTO.getCode());
+            moneyDTO.setMoney(ordersDTO.getTotalPrice());
+            moneyDTO.setOption("사용");
+            log.info("orderMenuList moneyDTO  {}", moneyDTO);
+
+
+            moneyMapper.chargeMoney(moneyDTO);
+            memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
 
             log.info("OrdersService - order---- end");
             return true;

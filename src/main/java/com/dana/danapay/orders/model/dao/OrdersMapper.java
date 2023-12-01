@@ -16,6 +16,9 @@ public interface OrdersMapper {
     /* ORDERS-1. 선택 메뉴 주문 - 메뉴*/
     void orderMenu(OrderMenuDTO orderMenuDTO);
 
+    /* ORDERS-1. 선택 메뉴 주문 - 예치금 차감*/
+    void useMoney(int code, int totalPrice);
+
 
     /* ORDERS-2. 주문상태 변경 - 업체조회 */
     int searchSCode(String orderCode);
@@ -28,4 +31,5 @@ public interface OrdersMapper {
 
     /* ORDERS-4. 주문내역 상세조회 */
     List<OrdersResponseDTO> searchDetailOrders(String orderCode);
+
 }
