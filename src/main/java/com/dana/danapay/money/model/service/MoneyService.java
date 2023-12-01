@@ -26,14 +26,14 @@ public class MoneyService {
     /* MONEY-1. 예치금 내역 조회 */
     public List<MoneyDTO> searchMoneyList(int code) {
 
-        log.info("moneyService - searchMoneyList---- start");
+        log.info("MoneyMapper - searchMoneyList---- start");
         try {
             List<MoneyDTO> moneyList = moneyMapper.searchMoneyByCode(code);
-            log.info("moneyService : moneyList : {}", moneyList);
-            log.info("moneyService - searchMoneyList---- end");
+            log.info("MoneyMapper : moneyList : {}", moneyList);
+            log.info("MoneyMapper - searchMoneyList---- end");
             return moneyList;
         } catch (Exception e) {
-            log.error("에러발생 moneyService - searchMoneyList", e);
+            log.error("에러발생 MoneyMapper - searchMoneyList", e);
             throw e;
         }
     }
@@ -41,14 +41,14 @@ public class MoneyService {
     /* MONEY-2. 예치금 잔액 조회 */
     public int searchMoneyBalance(int code) {
 
-        log.info("moneyService - searchMoneyBalance---- start");
+        log.info("MoneyMapper - searchMoneyBalance---- start");
         try {
             int balance = memberMapper.searchMoneyBalance(code);
-            log.info("moneyService : balance : {}", balance);
-            log.info("moneyService - searchMoneyBalance---- end");
+            log.info("MoneyMapper : balance : {}", balance);
+            log.info("MoneyMapper - searchMoneyBalance---- end");
             return balance;
         } catch (Exception e) {
-            log.error("에러발생 moneyService - searchMoneyBalance", e);
+            log.error("에러발생 MoneyMapper - searchMoneyBalance", e);
             throw e;
         }
     }
@@ -57,18 +57,18 @@ public class MoneyService {
     @Transactional
     public boolean chargeMoney(MoneyDTO moneyDTO) {
 
-        log.info("moneyService - chargeMoney---- start");
+        log.info("MoneyMapper - chargeMoney---- start");
         try {
             moneyMapper.chargeMoney(moneyDTO);
             memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
 
             int balance = memberMapper.searchMoneyBalance(moneyDTO.getCode());
-            log.info("moneyService : balance : {}", balance);
+            log.info("MoneyMapper : balance : {}", balance);
 
-            log.info("moneyService - chargeMoney---- end");
+            log.info("MoneyMapper - chargeMoney---- end");
             return true;
         } catch (Exception e) {
-            log.error("에러발생 moneyService - chargeMoney", e);
+            log.error("에러발생 MoneyMapper - chargeMoney", e);
             throw e;
         }
     }
@@ -76,7 +76,7 @@ public class MoneyService {
     /* MONEY-4. 예치금 선물 */
     @Transactional
     public boolean giftMoney(MoneyDTO moneyDTO) {
-        log.info("moneyService - giftMoney---- start");
+        log.info("MoneyMapper - giftMoney---- start");
         try {
             moneyMapper.giftMoney(moneyDTO);
             MoneyDTO recipientMoney = new MoneyDTO();
@@ -89,10 +89,10 @@ public class MoneyService {
             memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
             memberMapper.chargeMoney(recipientMoney.getCode(), recipientMoney.getMoney(), recipientMoney.getOption());
 
-            log.info("moneyService - giftMoney---- end");
+            log.info("MoneyMapper - giftMoney---- end");
             return true;
         } catch (Exception e) {
-            log.error("에러발생 moneyService - giftMoney", e);
+            log.error("에러발생 MoneyMapper - giftMoney", e);
             throw e;
         }
     }
