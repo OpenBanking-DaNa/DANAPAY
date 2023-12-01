@@ -15,6 +15,7 @@
         <result property="sBiznumber" column="S_BIZNUMBER"/>
         <result property="sX" column="S_X"/>
         <result property="sY" column="S_Y"/>
+        <collection property="auth" resultMap="authResponse"/>
         <collection property="menuList" resultMap="menuResponse"/>
     </resultMap>
 
@@ -24,6 +25,11 @@
         <result property="menuPrice" column="MENU_PRICE"/>
         <result property="isOrder" column="ISORDER"/>
         <result property="sCode" column="S_CODE"/>
+    </resultMap>
+
+    <resultMap id="authResponse" type="com.dana.danapay.auth.model.dto.AuthDTO">
+        <id property="authCode" column="AUTH_CODE"/>
+        <result property="authName" column="AUTH_NAME"/>
     </resultMap>
 
 
@@ -189,5 +195,11 @@
         WHERE S_CODE = #{sCode} AND S_ID = #{sId}
     </delete>
 
+    <select id="findByStoreId" resultMap="storeResponse">
+        SELECT
+               A.S_ID, A.S_CODE, A.S_NAME, A.ROLE, B.AUTH_NAME
+          FROM STORE JOIN AUTH B (A.ROLE = B.AUTH_CODE)
+         WHERE S_ID = #{sId}
+    </select>
 
 </mapper>

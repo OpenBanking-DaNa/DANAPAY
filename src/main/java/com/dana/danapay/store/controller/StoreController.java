@@ -25,6 +25,7 @@ public class StoreController {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     // 스토어 등록
     @PostMapping
     public ResponseEntity<ResponseDTO> addStore(@RequestBody StoreDTO storeRequest) {

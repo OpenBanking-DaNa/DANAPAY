@@ -1,6 +1,6 @@
 package com.dana.danapay.store.param;
 
-import com.dana.danapay.store.model.dto.StoreAccount;
+import com.dana.danapay.store.model.dto.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StorePasswordOnly implements StoreAccount {
+public class StorePasswordOnly implements Account {
 
     private int sCode;
     private String sId;
@@ -17,17 +17,17 @@ public class StorePasswordOnly implements StoreAccount {
 
 
     @Override
-    public int sCode() {
+    public int code() {
         return this.sCode;
     }
 
     @Override
-    public String sId() {
+    public String id() {
         return this.sId;
     }
 
     @Override
-    public String sPassword() {
+    public String password() {
         return this.sPassword;
     }
 }

@@ -3,7 +3,7 @@ package com.dana.danapay.store.model.service;
 import com.dana.danapay.common.Criteria;
 import com.dana.danapay.common.Pagination;
 import com.dana.danapay.exception.PasswordException;
-import com.dana.danapay.store.model.dto.StoreAccount;
+import com.dana.danapay.store.model.dto.Account;
 import com.dana.danapay.store.model.dto.StoreDTO;
 import com.dana.danapay.store.model.dao.StoreMapper;
 import com.dana.danapay.store.param.StoreListReq;
@@ -95,7 +95,7 @@ public class StoreService {
 
     // 스토어 정보 수정
     @Transactional
-    public <T extends StoreAccount> Object replaceStore(T storeRequest) {
+    public <T extends Account> Object replaceStore(T storeRequest) {
         log.info("StoreService updateStore============> storeRequest {}", storeRequest);
 
         try {
@@ -107,7 +107,7 @@ public class StoreService {
             storeMapper.updateStore(storeRequest);
             return "스토어 수정 성공";
         } catch (Exception e) {
-            log.error("Error updating store. Store ID: {}", storeRequest.sId(), e);
+            log.error("Error updating store. Store ID: {}", storeRequest.id(), e);
             return "스토어 수정 중 오류가 발생했습니다.";
         }
     }
@@ -134,21 +134,21 @@ public class StoreService {
 
 
     // 비밀번호 체크
-    private <T extends StoreAccount> boolean passwordCheck(T storeRequest){
+    private <T extends Account> boolean passwordCheck(T storeRequest){
         try {
             String encodePassword = storeMapper.getPassword(storeRequest);
 
-            if (encodePassword != null && passwordEncoder.matches(storeRequest.sPassword(), encodePassword)) {
+            if (encodePassword != null && passwordEncoder.matches(storeRequest.password(), encodePassword)) {
                 // 비밀번호 일치
                 return true;
             } else {
                 // 비밀번호 불일치
-                log.warn("비밀번호가 틀립니다. Store ID: " + storeRequest.sId());
+                log.warn("비밀번호가 틀립니다. Store ID: " + storeRequest.id());
                 return false;
             }
         } catch (Exception e) {
             // Log the exception and throw a custom exception
-            log.error("비밀번호 확인 중 오류가 발생했습니다. Store ID: " + storeRequest.sId(), e);
+            log.error("비밀번호 확인 중 오류가 발생했습니다. Store ID: " + storeRequest.id(), e);
             throw new PasswordException("비밀번호 확인 중 오류가 발생했습니다.");
         }
     }

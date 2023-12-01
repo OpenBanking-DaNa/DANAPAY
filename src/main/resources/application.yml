@@ -14,3 +14,8 @@ mybatis:
   mapper-locations: mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+
+jwt:
+  expire-time: 360000000
+  secret: EBWJJG+CWIAKltusVjf9SL0pEfOL9xWvLnu2vClsYx7kZLH0t3R6jLCjE7OB1Jq45yIxOd3wa73/obPVhVosyQ==
