@@ -1,20 +1,9 @@
-### 회원로그인
-POST http://localhost:8080/api/member
-Content-Type: application/json
-Accept: */*
-Access-Control-Allow-Origin: *
-
-{
-  "id": "1111",
-  "password": "1111"
-}
-
 ### MONEY-1. 예치금 내역 조회 @PathVariable 사용
-GET http://localhost:8080/api/money/search-list/1111
+GET http://localhost:8080/api/money/search-list/2
 Content-Type: application/json
 
 ### MONEY-2. 예치금 잔액 조회 @RequestParam 사용
-GET http://localhost:8080/api/money/search-bs?code=1111
+GET http://localhost:8080/api/money/search-bs?code=2
 Content-Type: application/json
 
 ### 예치금 충전
@@ -24,7 +13,7 @@ Accept: */*
 Access-Control-Allow-Origin: *
 
 {
-  "code": 1111,
+  "code": 2,
   "option": "충전",
   "money": 50000
 }
@@ -36,10 +25,10 @@ Accept: */*
 Access-Control-Allow-Origin: *
 
 {
-  "code": 1111,
+  "code": 2,
   "option": "선물보내기",
-  "money": 1000,
-  "recipientCode": 2222
+  "money": 10000,
+  "recipientCode": 3
 }
 
 

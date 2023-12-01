@@ -15,7 +15,7 @@
 
 
     <!-- MEMBER-1. 회원가입 -->
-    <insert id="memberResultMap">
+    <insert id="signup" parameterType="com.dana.danapay.member.model.dto.MemberDTO">
         INSERT INTO MEMBER (CODE, ID, PASSWORD, NICKNAME)
         VALUES (LPAD(MEMBER_SEQ.NEXTVAL, 4, 0), #{id}, #{password}, #{nickname})
     </insert>

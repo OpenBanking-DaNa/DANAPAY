@@ -9,7 +9,7 @@ public interface MemberMapper {
     /* MEMBER-1. 회원가입 */
     void signup(MemberDTO member);
 
-    /* MEMBER-2. 로그인 - 아이디 조회*/
+    /* MEMBER-1. 회원가입 - 아이디 조회*/
     MemberDTO findById(String id);
 
 

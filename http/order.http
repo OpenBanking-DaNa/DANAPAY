@@ -5,19 +5,19 @@ Accept: */*
 Access-Control-Allow-Origin: *
 
 {
-  "code": 1111,
-  "sCode": 4,
+  "code": 2,
+  "sCode": 5,
   "status": "접수",
   "orderMenuList":[
     {
-    "menuCode": "37",
+    "menuCode": "91",
     "amount": 1,
-    "menuPrice": 1500
+      "menuPrice": 4000
     },
     {
-      "menuCode": "38",
-      "amount": 3,
-      "menuPrice": 4000
+      "menuCode": "92",
+      "amount": 2,
+      "menuPrice": 5000
     }
   ]
 }
@@ -29,20 +29,20 @@ Accept: */*
 Access-Control-Allow-Origin: *
 
 //{
-//  "sCode": 0,
-//  "orderCode": "20231201-0057",
+//  "sCode": 5,
+//  "orderCode": "20231201-0058",
 //  "status": "진행중"
 //}
-//
+
 //{
-//  "sCode": 0,
-//  "orderCode": "20231201-0057",
+//  "sCode": 5,
+//  "orderCode": "20231201-0058",
 //  "status": "제조완료"
 //}
 
 {
-  "sCode": 0,
-  "orderCode": "20231201-0057",
+  "sCode": 5,
+  "orderCode": "20231201-0058",
   "status": "픽업완료"
 }
 

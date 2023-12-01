@@ -4,8 +4,8 @@ Content-Type: application/json; charset=UTF-8
 Accept: */*
 
 {
-  "id": "1111",
-  "password":"1111"
+  "id": "1212",
+  "password":"1212"
 }
 
 ### store login(id, password)
