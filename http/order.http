@@ -28,10 +28,22 @@ Content-Type: application/json
 Accept: */*
 Access-Control-Allow-Origin: *
 
+//{
+//  "sCode": 0,
+//  "orderCode": "20231201-0057",
+//  "status": "진행중"
+//}
+//
+//{
+//  "sCode": 0,
+//  "orderCode": "20231201-0057",
+//  "status": "제조완료"
+//}
+
 {
   "sCode": 0,
-  "orderCode": "20231130-0054",
-  "status": "진행중"
+  "orderCode": "20231201-0057",
+  "status": "픽업완료"
 }
 
 ### ORDERS-3. 주문내역 조회 @RequestParam 사용
@@ -40,4 +52,8 @@ Content-Type: application/json
 
 ### ORDERS-4. 주문내역 상세조회 @PathVariable 사용
 GET http://localhost:8080/api/orders/search/detail/20231201-0057
+Content-Type: application/json
+
+### ORDERS-5. 주문상태 조회 @RequestParam 사용
+GET http://localhost:8080/api/orders/status/20231201-0057
 Content-Type: application/json

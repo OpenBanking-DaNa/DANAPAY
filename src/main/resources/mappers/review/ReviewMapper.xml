@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dana.danapay.review.model.dao.ReviewMapper">
+
+    <!-- REVIEW-1. 주문 리뷰 작성 -->
+    <resultMap id="reviewResultMap" type="com.dana.danapay.review.model.dto.ReviewDTO">
+        <id property="reviewCode" column="REVIEW_CODE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="reviewDate" column="REVIEW_DATE"/>
+        <result property="reviewStar" column="REVIEW_STAR"/>
+        <result property="reviewReply" column="REVIEW_REPLY"/>
+        <result property="orderCode" column="ORDER_CODE"/>
+    </resultMap>
+
+    <!-- REVIEW-1. 주문 리뷰 작성 -->
+    <insert id="writeReview" parameterType="com.dana.danapay.review.model.dto.ReviewDTO">
+        INSERT INTO REVIEW
+        (REVIEW_CODE, CONTENT, REVIEW_DATE, REVIEW_STAR, ORDER_CODE)
+        VALUES
+        ('R' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(REVIEW_SEQ.NEXTVAL, 4, '0') ,#{content}, SYSDATE, #{reviewStar}, #{orderCode})
+    </insert>
+
+
+
+
+
+
+</mapper>

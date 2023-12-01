@@ -132,4 +132,19 @@ public class OrdersController {
                     .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "주문내역 상세조회 실패", null));
         }
     }
+
+    /* ORDERS-5. 주문상태 조회 @PathVariable 사용 */
+    @GetMapping("/status/{orderCode}")
+    public ResponseEntity<ResponseDTO> searchStatusOrders (@PathVariable String orderCode) {
+
+        log.info("OrdersController : searchStatusOrders");
+        try {
+            String result = ordersService.searchStatusOrders(orderCode);
+            log.info("OrdersController : result{}", result);
+            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "주문상태 조회 성공", result));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "주문상태 조회 실패", null));
+        }
+    }
 }

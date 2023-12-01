@@ -1,0 +1,11 @@
+### REVIEW-1. 주문 리뷰 작성
+POST http://localhost:8080/api/review/write
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin: *
+
+{
+  "orderCode": "20231201-0057",
+  "content": "배송이 빨라요. 맛있어요.",
+  "reviewStar": 5
+  }

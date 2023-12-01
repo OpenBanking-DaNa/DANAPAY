@@ -56,7 +56,6 @@ public class OrdersService {
             moneyDTO.setOption("사용");
             log.info("orderMenuList moneyDTO  {}", moneyDTO);
 
-
             moneyMapper.chargeMoney(moneyDTO);
             memberMapper.chargeMoney(moneyDTO.getCode(), moneyDTO.getMoney(), moneyDTO.getOption());
 
@@ -108,6 +107,20 @@ public class OrdersService {
             return result;
         } catch (Exception e) {
             log.error("에러발생 OrdersService - searchDetailOrders", e);
+            throw e;
+        }
+    }
+
+    /* ORDERS-5. 주문상태 조회 */
+    public String searchStatusOrders(String orderCode) {
+        log.info("OrdersService - searchStatusOrders---- start");
+        try {
+            String result = ordersMapper.searchStatusOrders(orderCode);
+            log.info("OrdersService - result {}", result);
+            log.info("OrdersService - searchStatusOrders---- end");
+            return result;
+        } catch (Exception e) {
+            log.error("에러발생 OrdersService - searchStatusOrders", e);
             throw e;
         }
     }
