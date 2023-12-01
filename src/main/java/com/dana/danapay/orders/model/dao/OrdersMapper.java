@@ -25,4 +25,7 @@ public interface OrdersMapper {
 
     /* ORDERS-3. 주문내역 조회 */
     List<OrdersResponseDTO> searchOrders(int code);
+
+    /* ORDERS-4. 주문내역 상세조회 */
+    List<OrdersResponseDTO> searchDetailOrders(String orderCode);
 }

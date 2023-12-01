@@ -84,4 +84,12 @@
             LEFT JOIN STORE s ON o.S_CODE = s.S_CODE
         WHERE o.CODE = #{code}
     </select>
+
+    <!-- ORDERS-4. 주문내역 상세조회 -->
+    <select id="searchDetailOrders" resultMap="orderMenuResultMap">
+        SELECT om.*
+        FROM ORDERS o
+        JOIN ORDER_MENU om ON om.ORDER_CODE = o.ORDER_CODE
+        WHERE om.ORDER_CODE = #{orderCode}
+    </select>
 </mapper>

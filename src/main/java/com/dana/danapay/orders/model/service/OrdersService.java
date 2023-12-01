@@ -72,18 +72,27 @@ public class OrdersService {
         log.info("OrdersService - searchOrders---- start");
         try {
             List<OrdersResponseDTO> result = ordersMapper.searchOrders(code);
-
-
-
             log.info("OrdersService - result {}", result);
-
             log.info("OrdersService - searchOrders---- end");
             return result;
         } catch (Exception e) {
             log.error("에러발생 OrdersService - searchOrders", e);
             throw e;
         }
+    }
 
+    /* ORDERS-4. 주문내역 상세조회 */
+    public List<OrdersResponseDTO> searchDetailOrders(String orderCode) {
+        log.info("OrdersService - searchDetailOrders---- start");
+        try {
+            List<OrdersResponseDTO> result = ordersMapper.searchDetailOrders(orderCode);
+            log.info("OrdersService - result {}", result);
+            log.info("OrdersService - searchDetailOrders---- end");
+            return result;
+        } catch (Exception e) {
+            log.error("에러발생 OrdersService - searchDetailOrders", e);
+            throw e;
+        }
     }
 }
 

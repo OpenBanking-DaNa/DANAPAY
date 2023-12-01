@@ -118,4 +118,18 @@ public class OrdersController {
         }
     }
 
+    /* ORDERS-4. 주문내역 상세조회 @PathVariable 사용 */
+    @GetMapping("/search/detail/{orderCode}")
+    public ResponseEntity<ResponseDTO> searchDetailOrders (@PathVariable String orderCode) {
+
+        log.info("OrdersController : searchDetailOrders");
+        try {
+            List<OrdersResponseDTO> result = ordersService.searchDetailOrders(orderCode);
+            log.info("OrdersController : result{}", result);
+            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "주문내역 상세조회 성공", result));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "주문내역 상세조회 실패", null));
+        }
+    }
 }
