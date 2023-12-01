@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class ReviewService {
@@ -31,4 +33,46 @@ public class ReviewService {
         }
 
     }
+
+    /* REVIEW-2. 작성 리뷰 전체 조회 By 회원코드 */
+    public List<ReviewDTO> searchReviewByCode(int code) {
+        log.info("ReviewService - searchReviewByCode---- start");
+        try {
+            List<ReviewDTO> result = reviewMapper.searchReviewByCode(code);
+            log.info("ReviewService - searchReviewByCode---- end");
+            return result;
+        } catch (Exception e) {
+            log.error("에러발생 ReviewService - searchReviewByCode", e);
+            throw e;
+        }
+    }
+
+    /* /* REVIEW-3. 주문코드별 리뷰 조회 */
+    public List<ReviewDTO> searchReviewByOrderCode(String orderCode) {
+        log.info("ReviewService - searchReviewByOrderCode---- start");
+        try {
+            List<ReviewDTO> result = reviewMapper.searchReviewByOrderCode(orderCode);
+            log.info("ReviewService - searchReviewByOrderCode---- end");
+            return result;
+        } catch (Exception e) {
+            log.error("에러발생 ReviewService - searchReviewByOrderCode", e);
+            throw e;
+        }
+    }
+
+//    // 통합조회
+//    public List<ReviewDTO> searchReview(int code, String orderCode) {
+//        log.info("ReviewService - searchReviewByCode---- start");
+//        try {
+//
+//            List<ReviewDTO> result = reviewMapper.searchReview(code, orderCode);
+//
+//            log.info("ReviewService - searchReviewByCode---- end");
+//            return result;
+//        } catch (Exception e) {
+//            log.error("에러발생 ReviewService - searchReviewByCode", e);
+//            throw e;
+//        }
+//
+//    }
 }

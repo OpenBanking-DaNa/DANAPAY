@@ -1,5 +1,6 @@
 package com.dana.danapay.review.model.dto;
 
+import com.dana.danapay.orders.model.dto.OrdersDTO;
 import lombok.*;
 
 import java.sql.Date;
@@ -17,6 +18,8 @@ public class ReviewDTO {
     private int reviewStar;         // 별점(0~5)
     private String reviewReply;     // 리뷰댓글
     private String orderCode;       // 주문코드
+
+    private OrdersDTO orders;
 
 
 

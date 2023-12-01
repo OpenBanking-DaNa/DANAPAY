@@ -9,3 +9,11 @@ Access-Control-Allow-Origin: *
   "content": "배송이 빨라요. 맛있어요.",
   "reviewStar": 5
   }
+
+### REVIEW-2. 작성 리뷰 전체 조회 @RequestParam 사용
+GET http://localhost:8080/api/review/search-code?code=1111
+Content-Type: application/json
+
+### REVIEW-3. 주문코드별 리뷰 조회 @RequestParam 사용
+GET http://localhost:8080/api/review/search-orderCode?orderCode=20231201-0057
+Content-Type: application/json

@@ -12,6 +12,12 @@
         <result property="reviewStar" column="REVIEW_STAR"/>
         <result property="reviewReply" column="REVIEW_REPLY"/>
         <result property="orderCode" column="ORDER_CODE"/>
+        <collection property="orders" resultMap="codeResultMap" />
+    </resultMap>
+
+    <resultMap id="codeResultMap" type="com.dana.danapay.orders.model.dto.OrdersDTO">
+        <id property="orderCode" column="ORDER_CODE"/>
+        <result property="code" column="CODE"/>
     </resultMap>
 
     <!-- REVIEW-1. 주문 리뷰 작성 -->
@@ -22,8 +28,32 @@
         ('R' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(REVIEW_SEQ.NEXTVAL, 4, '0') ,#{content}, SYSDATE, #{reviewStar}, #{orderCode})
     </insert>
 
+    <!-- REVIEW-2. 주문 리뷰 조회 -->
+    <select id="searchReview" resultMap="reviewResultMap">
+        SELECT * FROM REVIEW
+        WHERE
+            (
+                #{code} != 0 AND CODE = #{code} AND ORDER_CODE IN (SELECT ORDER_CODE FROM ORDERS WHERE CODE = #{code})
+                )
+           OR
+            (
+                #{orderCode} IS NOT NULL AND ORDER_CODE = #{orderCode}
+                )
+    </select>
 
 
+    <!-- REVIEW-2. 작성 리뷰 전체 조회 By 회원코드 -->
+    <select id="searchReviewByCode" resultMap="reviewResultMap">
+        SELECT r.* FROM REVIEW r
+        RIGHT JOIN ORDERS o ON r.ORDER_CODE = o.ORDER_CODE
+        WHERE o.CODE = #{code}
+    </select>
+
+    <!-- REVIEW-3. 주문코드별 리뷰 조회 -->
+    <select id="searchReviewByOrderCode" resultMap="reviewResultMap">
+        SELECT * FROM REVIEW
+        WHERE ORDER_CODE = #{orderCode}
+    </select>
 
 
 
