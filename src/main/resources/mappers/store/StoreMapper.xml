@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dana.danapay.store.model.dao.StoreMapper">
 
-    <resultMap id="storeResponse" type="com.dana.danapay.store.StoreDTO">
+    <resultMap id="storeResponse" type="com.dana.danapay.store.model.dto.StoreDTO">
         <id property="sCode" column="S_CODE"/>
         <result property="sId" column="S_ID"/>
         <result property="sPassword" column="S_PASSWORD"/>
@@ -28,7 +28,7 @@
 
 
 <!--  스토어 등록  -->
-    <insert id="insertNewStore" parameterType="com.dana.danapay.store.StoreDTO" useGeneratedKeys="true" keyProperty="sCode">
+    <insert id="insertNewStore" parameterType="com.dana.danapay.store.model.dto.StoreDTO" useGeneratedKeys="true" keyProperty="sCode">
 
         INSERT INTO STORE (S_CODE, S_ID, S_PASSWORD, S_NAME, S_PHONE, S_ADDRESS, S_BIZNUMBER, S_X, S_Y)
         SELECT store_seq.nextval, #{sId}, #{sPassword}, #{sName},
@@ -143,14 +143,13 @@
         SELECT
               S_PASSWORD
          FROM STORE
-        WHERE S_CODE = #{sCode}
-          AND S_ID = #{sId}
+        WHERE S_ID = #{sId} AND S_CODE = #{sCode}
     </select>
 
     <update id="updateStore">
-        UPDATE STORE SET
+        UPDATE STORE SET S_CODE = #{sCode}
         <if test="sName != null and sName != ''">
-              S_NAME = #{sName}
+            , S_NAME = #{sName}
         </if>
         <if test="sIsOpen != null and sIsOpen != ''">
             , S_IS_OPEN = #{sIsOpen}
@@ -167,21 +166,27 @@
         <if test="sY != null and sY != '' and sY != 0">
             , S_Y = #{sY}
         </if>
-        WHERE S_CODE = #{sCode}
+        <if test="sBiznumber != null and sBiznumber != '' and sBiznumber != 0">
+            , S_BIZNUMBER = #{sBiznumber}
+        </if>
+        <if test="newPassword != null and newPassword != '' and newPassword != 0">
+            , S_PASSWORD = #{newPassword}
+        </if>
+        WHERE S_CODE = #{sCode} AND S_ID = #{sId}
     </update>
 
-    <update id="updatePasswordStore">
-        UPDATE STORE SET
-        <if test="sPassword != null and sPassword != ''">
-            S_PASSWORD = #{sPassword}
-        </if>
-        WHERE S_CODE = #{sCode}
-    </update>
+<!--    <update id="updatePasswordStore">-->
+<!--        UPDATE STORE SET-->
+<!--        <if test="sPassword != null and sPassword != ''">-->
+<!--            S_PASSWORD = #{sPassword}-->
+<!--        </if>-->
+<!--        WHERE S_ID = #{sId}-->
+<!--    </update>-->
 
     <delete id="deleteStore">
         DELETE
         FROM STORE
-        WHERE S_CODE = #{sCode}
+        WHERE S_CODE = #{sCode} AND S_ID = #{sId}
     </delete>
 
 
