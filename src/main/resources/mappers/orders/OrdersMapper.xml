@@ -36,7 +36,7 @@
         <result property="sCode" column="S_CODE"/>
         <collection property="store" resultMap="storeResultMap" />
     </resultMap>
-    <resultMap id="storeResultMap" type="com.dana.danapay.store.StoreDTO">
+    <resultMap id="storeResultMap" type="com.dana.danapay.store.model.dto.StoreDTO">
         <id property="sCode" column="S_CODE"/>
         <result property="sId" column="S_ID"/>
         <result property="sName" column="S_NAME"/>
