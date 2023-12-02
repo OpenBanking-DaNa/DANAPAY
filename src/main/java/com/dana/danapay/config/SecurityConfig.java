@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,12 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; // 403 code
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;           // 401 code
 
+    // 시큐리티 설정무시 정적 리소스 빈 등록
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return web -> web.ignoring().requestMatchers("/css/**", "/js/**", "/static/**", "/templates/**");
+    }
+
     // http 요청 권한설정
     @Bean
     public SecurityFilterChain filterChain(@NotNull HttpSecurity http) throws Exception {
@@ -37,7 +44,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         author -> author
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/api/**").permitAll()
+                                .anyRequest().permitAll()
+//                                .requestMatchers("/api/**").permitAll()
+//                                .requestMatchers("/api/orders").hasAnyRole("'USER','STORE','ADMIN")
                 )
                 .exceptionHandling(AuthenticationManager -> AuthenticationManager
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
