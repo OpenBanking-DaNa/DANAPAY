@@ -7,13 +7,29 @@ spring:
     url: jdbc:oracle:thin:@oracle.coffit.today:1521:XE
     username: C##DANA
     password: DANA
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+      location: /Users/dhh/Documents/dev/teamproject/DANA/upload
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    check-template-location: true
+    web:
+      resources:
+        static-locations: classpath:/upload/
 
-
+image:
+  image-dir: src/main/resources
 # mybatis config
 mybatis:
   mapper-locations: mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
 
 
 jwt:

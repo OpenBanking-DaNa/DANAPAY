@@ -39,60 +39,66 @@ public class StoreService {
     // 스토어 신규 등록
     @Transactional
     public Object addStore(StoreDTO storeRequest) {
-        log.info("StoreService ============> storeRequest {}", storeRequest);
+        try {
+            log.info("StoreService ============> storeRequest {}", storeRequest);
 
+            storeRequest.setsPassword(passwordEncoder.encode(storeRequest.getsPassword()));
+            System.out.println("storeRequest.hashCode() = " + storeRequest.hashCode());
 
-        storeRequest.setsPassword(passwordEncoder.encode(storeRequest.getsPassword()));
-
-        System.out.println("storeRequest.hashCode() = " + storeRequest.hashCode());
-
-        int result = storeMapper.insertNewStore(storeRequest);
-
-        if( result > 0 ) {
+            int result = storeMapper.insertNewStore(storeRequest);
 
             int registCode = storeRequest.getsCode();
-
             return storeMapper.selectStoreByCode(registCode);
+
+        } catch (Exception e) {
+            // 예외가 발생한 경우
+            log.error("스토어 등록 중 오류 발생", e);
+            return "스토어 등록 중 오류 발생";
         }
-        else {
-            return "S401 : 스토어 등록 실패";
-        }
+
     }
 
     // 스토어 목록 조회 (2km 이내만)
     public Object selectStoreList(StoreListReq storeReq) {
 
-        int count = storeMapper.selectTotalCount(storeReq).size();
-        log.info("StoreService selectTotalCount============> count {}", count);
-        if(count > 0) {
+        try {
+            int count = storeMapper.selectTotalCount(storeReq).size();
+            log.info("StoreService selectTotalCount============> count {}", count);
 
-            // 보여줄 게시물 수, 버튼수 설정
-            int limit = 2;
-            int button = 5;
+            if (count > 0) {
+                // 보여줄 게시물 수, 버튼수 설정
+                int limit = 2;
+                int button = 5;
 
-            Criteria criteria = null;
+                Criteria criteria = null;
 
-            // 검색조건 있는 경우
-            if(storeReq.getSearchCondition() != null && !storeReq.getSearchCondition().equals("")){
-                criteria = Pagination.getCriteria(storeReq.getCurrentPageNo(), count, limit, button, storeReq.getSearchCondition(), storeReq.getSearchValue());
-            // 검색조건 없는 경우
+                // 검색조건 있는 경우
+                if (storeReq.getSearchCondition() != null && !storeReq.getSearchCondition().equals("")) {
+                    criteria = Pagination.getCriteria(storeReq.getCurrentPageNo(), count, limit, button, storeReq.getSearchCondition(), storeReq.getSearchValue());
+                    // 검색조건 없는 경우
+                } else {
+                    criteria = Pagination.getCriteria(storeReq.getCurrentPageNo(), count, limit, button);
+                }
+                log.info("StoreService selectStoreList============> criteria {}", criteria);
+
+                // 조회
+                List<StoreDTO> storeDTOS = storeMapper.selectStoreList(criteria, storeReq);
+                List<StoreListRes> storeList = storeDTOS.stream().map(store -> mm.map(store, StoreListRes.class)).collect(Collectors.toList());
+
+                storeList.forEach(store -> store.setDistance((int) Math.ceil(distance(storeReq.getsY(), storeReq.getsX(), store.getsY(), store.getsX()))));
+
+                log.info("StoreService selectStoreList============> storeList {}", storeList);
+
+                return storeList;
             } else {
-                criteria = Pagination.getCriteria(storeReq.getCurrentPageNo(), count, limit, button);
+                return "반경 2km 이내 스토어 없음";
             }
-            log.info("StoreService selectStoreList============> criteria {}", criteria);
-
-            // 조회
-            List<StoreDTO> storeDTOS = storeMapper.selectStoreList(criteria, storeReq);
-            List<StoreListRes> storeList = storeDTOS.stream().map(store -> mm.map(store, StoreListRes.class)).collect(Collectors.toList());
-
-            storeList.forEach(store -> store.setDistance((int)Math.ceil(distance(storeReq.getsY(), storeReq.getsX(), store.getsY(), store.getsX()))));
-
-            log.info("StoreService selectStoreList============> storeList {}", storeList);
-
-            return storeList;
-        } else {
-            return "반경 2km 이내 스토어 없음";
+        } catch (Exception e) {
+            // 예외가 발생한 경우
+            log.error("스토어 목록 조회 중 오류 발생", e);
+            return "스토어 목록 조회 중 오류 발생";
         }
+
     }
 
     // 스토어 전체 정보 수정

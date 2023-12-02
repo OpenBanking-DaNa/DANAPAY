@@ -55,7 +55,7 @@ public class StoreController {
 
     }
 
-    // 스토어 계정 비밀번호 변경
+    // 스토어 일부 정보 수정
     @PreAuthorize("hasAnyRole('STORE','ADMIN')")
     @PatchMapping("/{sCode}")
     public ResponseEntity<ResponseDTO> anyUpdateStore(@PathVariable int sCode, @RequestBody StoreDTO storeRequest) {
