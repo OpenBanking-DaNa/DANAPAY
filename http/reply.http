@@ -1,0 +1,16 @@
+### 스토어별 리뷰 조회
+GET http://localhost:8080/api/review/store/5?currentPageNo=1
+
+### 스토어별 리뷰 댓글 등록/수정
+PATCH http://localhost:8080/api/review/store/5/R20231201-0003
+Content-Type: application/json; charset=UTF-8
+Accept: */*
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzMjIyMiIsImF1dGgiOlsiUk9MRV9TVE9SRSJdLCJleHAiOjE3Mzc1ODk5NTh9.TzrGukqgcNcEV8fDtvSJpg3beyrxmD0HmTtFRJN-A6Ff3XXNcaVYZQTevTLwKQspRcv34zHH8ntKgk7HgrWvhg
+
+{
+   "reviewReply": "222222 감사합니다. 다음에 또 주문해주세요!!! "
+}
+
+### 스토어별 리뷰 댓글 삭제
+DELETE http://localhost:8080/api/review/store/5/R20231201-0003
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzMjIyMiIsImF1dGgiOlsiUk9MRV9TVE9SRSJdLCJleHAiOjE3Mzc1ODk5NTh9.TzrGukqgcNcEV8fDtvSJpg3beyrxmD0HmTtFRJN-A6Ff3XXNcaVYZQTevTLwKQspRcv34zHH8ntKgk7HgrWvhg

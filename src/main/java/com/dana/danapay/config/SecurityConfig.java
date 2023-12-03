@@ -44,8 +44,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         author -> author
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/api/**").permitAll()
                                 .anyRequest().permitAll()
-//                                .requestMatchers("/api/**").permitAll()
 //                                .requestMatchers("/api/orders").hasAnyRole("'USER','STORE','ADMIN")
                 )
                 .exceptionHandling(AuthenticationManager -> AuthenticationManager

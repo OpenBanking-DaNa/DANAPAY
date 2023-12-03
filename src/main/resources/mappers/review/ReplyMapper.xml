@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dana.danapay.review.model.dao.ReplyMapper">
+
+    <resultMap id="ReviewResponse" type="com.dana.danapay.review.model.dto.ReviewDTO">
+        <id property="reviewCode" column="REVIEW_CODE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="reviewDate" column="REVIEW_DATE"/>
+        <result property="reviewStar" column="REVIEW_STAR"/>
+        <result property="reviewReply" column="REVIEW_REPLY"/>
+        <result property="orderCode" column="ORDER_CODE"/>
+    </resultMap>
+
+    <select id="reviewTotalCount">
+        SELECT COUNT(A.REVIEW_CODE)
+          FROM REVIEW A
+          JOIN ORDERS B ON (A.ORDER_CODE = B.ORDER_CODE)
+          JOIN STORE C ON (B.S_CODE = C.S_CODE)
+         WHERE C.S_CODE = #{sCode}
+    </select>
+
+    <select id="selectStoreReview" resultMap="ReviewResponse" parameterType="map">
+        SELECT A.RN,
+               A.REVIEW_CODE,
+               A.CONTENT,
+               A.REVIEW_DATE,
+               A.REVIEW_STAR,
+               A.REVIEW_REPLY,
+               A.ORDER_CODE
+          FROM (
+              SELECT
+                  ROWNUM RN,
+                  B1.REVIEW_CODE,
+                  B1.CONTENT,
+                  B1.REVIEW_DATE,
+                  B1.REVIEW_STAR,
+                  B1.REVIEW_REPLY,
+                  B1.ORDER_CODE
+                FROM (
+                    SELECT
+                        C1.REVIEW_CODE,
+                        C1.CONTENT,
+                        C1.REVIEW_DATE,
+                        C1.REVIEW_STAR,
+                        C1.REVIEW_REPLY,
+                        C2.ORDER_CODE,
+                        C3.S_CODE
+                      FROM REVIEW C1
+                      JOIN ORDERS C2 ON (C1.ORDER_CODE = C2.ORDER_CODE)
+                      JOIN STORE C3 ON (C2.S_CODE = C3.S_CODE)
+                     WHERE C3.S_CODE = #{sCode}
+                     )  B1
+                <![CDATA[
+                  WHERE ROWNUM <= #{criteria.endRow}
+                  ]]>
+                  ORDER BY B1.REVIEW_DATE DESC
+               ) A
+        WHERE A.RN >= #{criteria.startRow}
+    </select>
+
+    <update id="postReply">
+        UPDATE REVIEW SET REVIEW_REPLY = #{reviewReply}
+         WHERE REVIEW_CODE = #{reviewCode}
+    </update>
+
+    <update id="deleteReply">
+        UPDATE REVIEW SET REVIEW_REPLY = ''
+         WHERE REVIEW_CODE = #{reviewCode}
+    </update>
+
+</mapper>

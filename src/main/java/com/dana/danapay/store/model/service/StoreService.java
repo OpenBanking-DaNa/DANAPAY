@@ -94,7 +94,6 @@ public class StoreService {
                 return "반경 2km 이내 스토어 없음";
             }
         } catch (Exception e) {
-            // 예외가 발생한 경우
             log.error("스토어 목록 조회 중 오류 발생", e);
             return "스토어 목록 조회 중 오류 발생";
         }
