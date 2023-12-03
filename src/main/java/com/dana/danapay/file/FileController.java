@@ -71,10 +71,11 @@ public class FileController {
 
             // 디비에 저장할 메뉴 리스트 객체 생성
             List<menuDTO> menuList = new ArrayList<>();
-            menuDTO menu = new menuDTO();
+
             // 추출된 리스트 데이터를 기반으로 메뉴를 추가
             for(int i = 0; i < apply.size(); i++){
 
+                menuDTO menu = new menuDTO();
                 // 각 열의 데이터를 객체에 저장
                 menu.setMenuName(apply.get(i).get("cell_0"));
                 menu.setMenuPrice(Integer.parseInt(apply.get(i).get("cell_1")));
@@ -100,7 +101,7 @@ public class FileController {
         }
 
         // 리다이렉트 시 맵을 플래시 어트리뷰트로 추가하고 메뉴 페이지로 리다이렉트
-        redirectAttributes.addFlashAttribute("resMap", resMap);
+//        redirectAttributes.addFlashAttribute("resMap", resMap);
         return "redirect:/api/menu/" + sCode;
     }
 
