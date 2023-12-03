@@ -7,40 +7,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
 <div id="contAreaBox">
-<!--    <form name="inputForm" method="post"  enctype="multipart/form-data" class="form-horizontal">-->
-<!--        <div class="panel">-->
-<!--            <div class="panel-body">-->
-<!--                <h4 class="mt0"><i class="fa fa-cube" aria-hidden="true"></i>신청자 업로드</h4>-->
-<!--                <div class="table-responsive">-->
-<!--                    <p> 양식파일을 다운로드 하시고 파일내에 있는 모든 항목들을 채워서 업로드하셔야 정상적으로 등록됩니다.</p>-->
-<!--                    <table id="datatable-scroller" class="table table-bordered tbl_Form">-->
-<!--                        <caption>신청자 업로드</caption>-->
-<!--                        <colgroup>-->
-<!--                            <col width="250px" />-->
-<!--                            <col />-->
-<!--                        </colgroup>-->
-<!--                        <tbody>-->
-<!--                        <tr>-->
-<!--                            <th class="active" style="text-align:right"><label class="control-label">파일 업로드</label></th>-->
-<!--                            <td>-->
-<!--                                <input type="file" name="file" id="file" accept=".xlsx, .xls"/>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+    <form name="inputForm" method="post" enctype="multipart/form-data" class="form-horizontal"
+          action="/api/file/menu/5" >
+        <div class="panel">
+            <div class="panel-body">
+                <h4 class="mt0"><i class="fa fa-cube" aria-hidden="true"></i>메뉴 업로드</h4>
+                <div class="table-responsive">
+                    <p>모든 항목들을 채워서 업로드하셔야 정상적으로 등록됩니다.</p>
+                    <table id="datatable-scroller" class="table table-bordered tbl_Form">
+                        <caption>업로드</caption>
+                        <colgroup>
+                            <col width="250px" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th class="active" style="text-align:right"><label class="control-label">파일 업로드</label></th>
+                            <td>
+                                <input type="file" name="file" id="file" accept=".xlsx, .xls"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
 <!--        <div class="pull-right">-->
-<!--            <input type="submit" value="엑셀파일 업로드" class="btn btn btn-primary btn-lg" />-->
+            <input type="submit" value="메뉴> 엑셀파일 업로드" class="btn btn btn-primary btn-lg" />
 <!--            <a th:href="" class="btn btn btn-primary btn-lg">양식파일 다운로드</a>-->
 <!--        </div>-->
-<!--    </form>-->
+    </form>
 </div>
 
 </body>

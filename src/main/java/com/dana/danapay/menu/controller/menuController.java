@@ -37,7 +37,6 @@ public class menuController {
                 menuservice.insertMenu(menuRequest)));
     }
 
-    // 메뉴 batch 등록(대용량 일괄 등록)
 
 
     // 메뉴 단건 조회
