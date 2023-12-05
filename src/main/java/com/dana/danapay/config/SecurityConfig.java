@@ -3,6 +3,7 @@ package com.dana.danapay.config;
 import com.dana.danapay.security.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.internal.CustomizerRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -39,7 +40,7 @@ public class SecurityConfig {
 
         http.httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.disable())
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         author -> author
