@@ -129,11 +129,11 @@
                     </if>
                 </where>
                 GROUP BY S_CODE
+                ORDER BY distance DESC
             ) D ON (C.S_CODE = D.S_CODE)
           <![CDATA[
             WHERE ROWNUM <= #{criteria.endRow}
           ]]>
-            ORDER BY distance DESC
         ) A
         WHERE A.RN >= #{criteria.startRow}
     </select>
