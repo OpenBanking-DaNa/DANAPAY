@@ -30,7 +30,6 @@ public class BatchCode {
     private String password;
 
     // 메뉴 배치 인서트
-    @Transactional
     public void menuInsert(List<menuDTO> menuList, int sCode) throws SQLException {
 
         con = null;
